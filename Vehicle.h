@@ -24,6 +24,7 @@ class Vehicle
 private:
     Point* position;
 
+    string number = "CB0000AX";
     int speed = 40;
     bool canMove = true;
 
@@ -42,7 +43,7 @@ private:
     void expandRoute(vector<Point*> poins);
 
 public:
-    Vehicle(int speed, int gasCapacity, int gasLevel, Point* position, Navigator* navigator);
+    Vehicle(string number,int speed, int gasCapacity, int gasLevel, Point* position, Navigator* navigator);
    
     void setAppointment(Point* point);
     void addAppointment(Point* point);
@@ -57,6 +58,7 @@ public:
     Point* getPosition() {return position;}
 
     int getSpeed() {return speed;}
+    string getNumber() {return number;}
     int getGasLevel() {return gasLevel;}
     int getGasCapacity() {return gasCapacity;}
 };
