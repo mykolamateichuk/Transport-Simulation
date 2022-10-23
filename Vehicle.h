@@ -9,40 +9,13 @@ using namespace std;
 
 class Point // -
 {
-private:
-    int length;
-    string name;
-
-public:
-    Point()
-    {
-        this->length = 500;
-        this->name = "Unsigned";
-    }
-    
-    Point(int length, string name)
-    {
-        this->length = length;
-        this->name = name;
-    }
-
-    string getName() {return name;} 
-    int getLength(Point* point) {return length;} // !
 };
 
 
 class Navigator // -
 {
 public:
-    vector<Point*> findRoute(Point* begin, Point* end)
-    {
-        vector<Point*> route;
-
-        for(int i = 0; i < 5; i++) route.push_back(new Point(800, "Point " + to_string(i)));
-        route.push_back(end);
-
-        return route;
-    }
+    vector<Point*> findRoute(Point* begin, Point* end);
 };
 
 
