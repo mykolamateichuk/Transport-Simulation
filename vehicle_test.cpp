@@ -5,13 +5,26 @@
 
 #define RAND(min, max) (min + rand() % (max + 1 - min))
 
-#define TIMEOUT 100
+#define TIMEOUT 300
 
 using namespace std;
+
+void print_route(queue<int> route)
+{
+    while (!route.empty()) 
+    {
+        cout << route.front() << " ";
+        route.pop();
+    }
+}
 
 void print_vehicle(Vehicle vehicle)
 {
     cout << "Номер: " << vehicle.getNumber() << endl;
+    cout << "Положення: " << vehicle.getPosition() << endl;
+    cout << "Маршрут: "; print_route(vehicle.getRoute()); cout << endl;
+    cout << "Точка призначення: " << (vehicle.getAppointment()) << endl;
+    cout << endl;
     cout << "Ємність баку: " << vehicle.getGasCapacity() << endl;
     cout << "Паливо: " << vehicle.getGasLevel() << endl;
     cout << "Швидкість: " << vehicle.getSpeed() << endl;
@@ -24,26 +37,34 @@ int main()
     srand(time(NULL));
     system("cls");
 
-    Navigator* navigator = new Navigator();
+    vector<vector<int>> map = { { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+                                { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                                { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                                { 0, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+                                { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
+                                { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+                                { 0, 0, 0, 0, 1, 0, 0, 1, 1, 0},
+                                { 0, 0, 0, 0, 0, 1, 1, 0, 0, 1},
+                                { 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+                                { 0, 0, 0, 0, 0, 0, 0, 1, 1, 0}};
 
-    Vehicle car = Vehicle("CB0001AX", 60, 100, 30, new Point(), navigator);
-    Vehicle bus = Vehicle("AA9582BK", 40, 200, 120, new Point(), navigator);
+    Navigator* navigator = new Navigator(map);
+
+    Vehicle bus = Vehicle("CD9582BK", 40, 200, 120, 10, navigator);
+    bus.addAppointment(3);
+    bus.addAppointment(1);
 
     while (true)
     {
         system("cls");
 
-        print_vehicle(car);
-        cout << "\n\n";
         print_vehicle(bus);
 
-        car.update();
         bus.update();
         
-        if (car.getGasLevel()) car.setSpeed(RAND(40, 100));
         if (bus.getGasLevel() <= bus.getGasCapacity()/10) bus.refuel();
 
-        Sleep(500);
+        Sleep(TIMEOUT);
     }
 
     return 0;

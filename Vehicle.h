@@ -4,25 +4,14 @@
 #include <queue>
 #include <vector>
 #include <iostream>
+#include "navigator.cpp"
 
 using namespace std;
-
-class Point // -
-{
-};
-
-
-class Navigator // -
-{
-public:
-    vector<Point*> findRoute(Point* begin, Point* end);
-};
-
 
 class Vehicle
 {
 private:
-    Point* position;
+    int position;
 
     string number = "CB0000AX";
     int speed = 40;
@@ -32,21 +21,21 @@ private:
     float gasLevel = 65;
 
     int removal = 0;
-    queue<Point*> route;
-    queue<Point*> appointments;
+    queue<int> route;
+    queue<int> appointments;
 
-    Navigator* navigator; // !
+    Navigator* navigator;
 
     void update_position();
     void update_gasLevel();
 
-    void expandRoute(vector<Point*> poins);
+    void expandRoute(vector<int> poins);
 
 public:
-    Vehicle(string number,int speed, int gasCapacity, int gasLevel, Point* position, Navigator* navigator);
+    Vehicle(string number,int speed, int gasCapacity, int gasLevel, int position, Navigator* navigator);
    
-    void setAppointment(Point* point);
-    void addAppointment(Point* point);
+    void setAppointment(int point);
+    void addAppointment(int point);
 
     void setSpeed(int speed); 
 
@@ -54,11 +43,17 @@ public:
 
     void update();
     
-    Point* getAppointment(); 
-    Point* getPosition() {return position;}
+    int getPosition() {return position;}
+    int getAppointment() 
+    {
+        if (appointments.empty()) return -1;
+        return appointments.front();
+    }
+    queue<int> getRoute() {return route;}
 
     int getSpeed() {return speed;}
     string getNumber() {return number;}
+
     int getGasLevel() {return gasLevel;}
     int getGasCapacity() {return gasCapacity;}
 };

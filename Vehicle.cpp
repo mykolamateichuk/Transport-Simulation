@@ -4,21 +4,16 @@ using namespace std;
 
 // private
 
-// void Vehicle::update_position()
-// {
-// }
+// void Vehicle::update_position(){}
 
 void Vehicle::update_gasLevel()
 {
     gasLevel--;
-    if (gasLevel <= 0)
-    {
-        gasLevel = 0;
-        speed = 0;
-    }
+    
+    if (gasLevel <= 0) {gasLevel = 0; speed = 0;}
 }
 
-void Vehicle::expandRoute(vector<Point*> poins)
+void Vehicle::expandRoute(vector<int> poins)
 {
     for (int i = 0; i < poins.size(); i++)
         route.push(poins[i]);
@@ -26,7 +21,7 @@ void Vehicle::expandRoute(vector<Point*> poins)
 
 // public
 
-Vehicle::Vehicle(string number, int speed, int gasCapacity, int gasLevel, Point* position, Navigator* navigator)
+Vehicle::Vehicle(string number, int speed, int gasCapacity, int gasLevel, int position, Navigator* navigator)
 {
     this->position = position;
     this->number = number;
@@ -39,13 +34,24 @@ Vehicle::Vehicle(string number, int speed, int gasCapacity, int gasLevel, Point*
     this->gasLevel = gasLevel;
 }
 
-// void Vehicle::setAppointment(Point* point)
-// {
-// }
+void Vehicle::setAppointment(int point)
+{
+    appointments = queue<int>();
+    route = queue<int>();
 
-// void Vehicle::addAppointment(Point* point) 
-// {
-// }
+    expandRoute(navigator->findroad(position, point));
+    route.push(point);
+}
+
+void Vehicle::addAppointment(int point) 
+{
+    appointments.push(point);
+
+    if(!route.empty()) expandRoute(navigator->findroad(route.back(), point));
+    else expandRoute(navigator->findroad(position, point));
+    
+    route.push(point);
+}
 
 void Vehicle::setSpeed(int speed) 
 {
@@ -62,10 +68,4 @@ void Vehicle::update()
 
     update_gasLevel();
     // update_position();
-}
-
-Point* Vehicle::getAppointment() 
-{
-    if (appointments.empty()) return nullptr;
-    return appointments.front();
 }
