@@ -5,18 +5,15 @@
 
 class TransportManager {
     private:
-        /*
-            ...
-        */
-    public:
         unsigned int numberOfVehicles;
-        Vehicle* allVehicles;
+        //unsigned int numberOfPoints;
 
-        unsigned int **Map;
+        unsigned int** map;
+
+        Vehicle* vehicles;
         // Road* roads;
-        unsigned int numberOfPoints;
         // Point* points;
-
+    public:
         TransportManager();
 
         
@@ -26,6 +23,18 @@ class TransportManager {
         void editMap();
         void printStats();
         void simulate();
+
+        unsigned int getNumberOfVehicles();
+        unsigned int** getMap();
+        Vehicle* getVehicles();
+        //Road* getRoads();
+        //Point* getPoints();
+
+        void setNumberOfVehicles(unsigned int new_numberOfVehicles);
+        void setMap(unsigned int** new_map);
+        void setVehicles(Vehicle* new_vehicles);
+        //void setRoads(Road* new_roads);
+       // void setPoints(Point* new_points);
         
 
         ~TransportManager();
