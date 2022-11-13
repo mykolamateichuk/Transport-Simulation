@@ -4,13 +4,30 @@ using namespace std;
 
 // private
 
-// void Vehicle::update_position(){}
+void Vehicle::update_position()
+{
+    removal += speed;
+
+    if (removal >= 1000) // !
+    {
+        removal = 0;
+        position = route.front();
+        route.pop();
+    }
+
+    if (!appointments.empty() && appointments.front() == position)
+        appointments.pop();
+}
 
 void Vehicle::update_gasLevel()
 {
     gasLevel--;
-    
-    if (gasLevel <= 0) {gasLevel = 0; speed = 0;}
+
+    if (gasLevel <= 0)
+    {
+        gasLevel = 0;
+        speed = 0;
+    }
 }
 
 void Vehicle::expandRoute(vector<int> poins)
@@ -21,13 +38,14 @@ void Vehicle::expandRoute(vector<int> poins)
 
 // public
 
-Vehicle::Vehicle(string number, int speed, int gasCapacity, int gasLevel, int position, Navigator* navigator)
+Vehicle::Vehicle(string number, int speed, int gasCapacity, int gasLevel, int position, Navigator *navigator)
 {
     this->position = position;
     this->number = number;
     this->navigator = navigator;
 
-    if (speed < 0 || gasCapacity < 0 || gasLevel < 0 || gasCapacity < gasLevel) return;
+    if (speed < 0 || gasCapacity < 0 || gasLevel < 0 || gasCapacity < gasLevel)
+        return;
 
     this->speed = speed;
     this->gasCapacity = gasCapacity;
@@ -43,29 +61,39 @@ void Vehicle::setAppointment(int point)
     route.push(point);
 }
 
-void Vehicle::addAppointment(int point) 
+void Vehicle::addAppointment(int point)
 {
     appointments.push(point);
 
-    if(!route.empty()) expandRoute(navigator->findroad(route.back(), point));
-    else expandRoute(navigator->findroad(position, point));
-    
+    if (!route.empty())
+        expandRoute(navigator->findroad(route.back(), point));
+    else
+        expandRoute(navigator->findroad(position, point));
+
     route.push(point);
 }
 
-void Vehicle::setSpeed(int speed) 
+void Vehicle::setSpeed(int speed)
 {
-    if (speed < 0) speed = 0;
+    if (speed < 0)
+        speed = 0;
 
     this->speed = speed;
 }
 
-void Vehicle::refuel() {gasLevel = gasCapacity;}
+void Vehicle::refuel() { gasLevel = gasCapacity; }
 
 void Vehicle::update()
 {
-    if (!canMove || speed <= 0 || gasLevel <= 0) return;
+    if (!canMove || speed <= 0 || gasLevel <= 0)
+        return;
+
+    if (route.empty())
+    {
+        removal = 0;
+        return;
+    }
 
     update_gasLevel();
-    // update_position();
+    update_position();
 }

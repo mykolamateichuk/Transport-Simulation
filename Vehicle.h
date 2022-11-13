@@ -24,7 +24,7 @@ private:
     queue<int> route;
     queue<int> appointments;
 
-    Navigator* navigator;
+    Navigator *navigator;
 
     void update_position();
     void update_gasLevel();
@@ -32,30 +32,31 @@ private:
     void expandRoute(vector<int> poins);
 
 public:
-    Vehicle(string number,int speed, int gasCapacity, int gasLevel, int position, Navigator* navigator);
-   
+    Vehicle(string number, int speed, int gasCapacity, int gasLevel, int position, Navigator *navigator);
+
     void setAppointment(int point);
     void addAppointment(int point);
 
-    void setSpeed(int speed); 
+    void setSpeed(int speed);
 
     void refuel();
 
     void update();
-    
-    int getPosition() {return position;}
-    int getAppointment() 
+
+    int getPosition() { return position; }
+    int getAppointment()
     {
-        if (appointments.empty()) return -1;
+        if (appointments.empty())
+            return -1;
         return appointments.front();
     }
-    queue<int> getRoute() {return route;}
+    queue<int> getRoute() { return route; }
 
-    int getSpeed() {return speed;}
-    string getNumber() {return number;}
+    int getSpeed() { return speed; }
+    string getNumber() { return number; }
 
-    int getGasLevel() {return gasLevel;}
-    int getGasCapacity() {return gasCapacity;}
+    int getGasLevel() { return gasLevel; }
+    int getGasCapacity() { return gasCapacity; }
 };
 
 #endif
