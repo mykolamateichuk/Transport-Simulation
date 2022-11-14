@@ -4,7 +4,7 @@
 #include <queue>
 #include <vector>
 #include <iostream>
-#include "navigator.cpp"
+#include "navigator.h"
 
 using namespace std;
 

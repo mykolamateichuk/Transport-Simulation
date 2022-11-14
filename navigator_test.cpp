@@ -1,4 +1,4 @@
-﻿#include"navigator.h"
+﻿/*#include"navigator.h"
 using namespace std;
 void print(vector<int> road) {
     for (int i = 0; i <= road.size() - 1; i++) {
@@ -24,3 +24,4 @@ int main()
     cin.get(); cin.get();
     return 0;
 }
+*/

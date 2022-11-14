@@ -1,36 +1,53 @@
 #include "TransportManager.h"
+#include <string>
 
-TransportManager::TransportManager() {
-    this->numberOfVehicles = 0;
+TransportManager::TransportManager() = default;
+TransportManager::~TransportManager() = default;
 
-    /*
-        ...
-    */
+std::string generateRandomCarNumber() {
+	std::string number;
 
+	number += char(rand() % 90 - 65) + char(rand() % 90 - 65);
+	number += to_string(rand() % 10000);
+	number += char(rand() % 90 - 65) + char(rand() % 90 - 65);
+	
+	return number;
 }
 
-TransportManager::~TransportManager() {
-    this->numberOfVehicles = 0;
+void TransportManager::setUpSimulation() {};
 
-    delete map;
+void TransportManager::inputData() {};
 
-    /*
-        ...
-    */
-}
+void TransportManager::printStats() {
+	for (auto vehicle : vehicles) {
+		std::cout << "********************************" << std::endl;
+		std::cout << "Vehicle: " << vehicle->getNumber() << std::endl;
+		std::cout << "Next Point: " << vehicle->getAppointment() << std::endl;
+		std::cout << "Fuel Left: " << vehicle->getGasLevel() << std::endl;
+	}
+};
 
-void TransportManager::inputData() {
-    cout << "Number of vehicles to simulate: ";
-    cin >> numberOfVehicles;
 
-    // cout << "Number of points on the map: ";
-    // cin >> numberOfPoints;
+// Getters
+unsigned int TransportManager::getNumberOfVehicles() {
+	return numberOfVehicles;
+};
 
-    // cout << "Weighted graph representation of the map:" << endl;
-    // for (int i = 0; i < numberOfPoints; i++) {
-    //     for (int j = 0; j < numberOfPoints; j++) {
-    //         cout << "Map[" << i << "][" << j << "]: ";
-    //         cin >> Map[i][j];
-    //     }
-    // }
-}
+vector<vector<unsigned int>> TransportManager::getMap() {
+	return map;
+};
+
+vector<Vehicle*> TransportManager::getVehicles() {
+	return vehicles;
+};
+
+
+// Setters
+void TransportManager::setNumberOfVehicles(unsigned int new_numberOfVehicles) {
+	numberOfVehicles = new_numberOfVehicles;
+};
+
+void TransportManager::addVehicle(Vehicle* new_vehicle) {
+	vehicles.push_back(new_vehicle);
+	numberOfVehicles++;
+};

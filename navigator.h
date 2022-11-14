@@ -1,3 +1,6 @@
+#ifndef NAVIGATOR_H
+#define NAVIGATOR_H
+
 #include <iostream>
 #include <queue>
 #include <stack> 
@@ -14,3 +17,5 @@ public:
     Navigator(vector<vector<int>> mas) {this->mas = mas;}
     vector<int> findroad(int start, int finish);
 };
+
+#endif
