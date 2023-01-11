@@ -126,6 +126,6 @@ int Vehicle::getGasCapacity() { return gasCapacity; }
 
 // set
 void Vehicle::setNumber(string number) { this->number = number; }
-void Vehicle::setSpeed(int speed) { this->speed = speed >= 0 ? speed : 0; }
+//void Vehicle::setSpeed(int speed) { this->speed = speed >= 0 ? speed : 0; }
 void Vehicle::setGasLevel(int gasLevel) { this->gasLevel = gasLevel <= gasCapacity ? gasLevel : gasCapacity; }
 void Vehicle::setGasCapacity(int gasCapacity) { this->gasCapacity = gasCapacity > gasLevel ? gasCapacity : gasLevel; }

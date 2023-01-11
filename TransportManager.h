@@ -11,30 +11,41 @@
 
 class TransportManager {
     private:
-        unsigned int numberOfVehicles;          // Number of vehicles in the current simulation run
+        // Current number of vehicles in the run
+        unsigned int numberOfVehicles;
 
-        Map map;                                // Adjacency matrix of weighted graph that represents simulation map
+        // Map of the run represented by weighted graph
+        Map map;                                        
 
-        vector<Vehicle*> vehicles;              // Array of all the vehicles that are in the current simulation run
-        vector<Road*> roads;                    // Array of all the roads that are in the current simulation run
-        vector<Point*> points;                  // Array of all the points that are in the current simulation run
+        // Vectors for storing current vehicles, roads and points that are currently in the run
+        vector<Vehicle*> vehicles;                      
+        vector<Road*> roads;                            
+        vector<Point*> points;                          
         
-        // Creating needed number of vehicles and using the map - points and roads 
-        // Assigning every subject a needed values, either predetermined or random
-        void setUpSimulation();                
+        void setUpSimulation(unsigned int, const Map&);                
     public:
-        void inputData();                               // Creates an interface for inputing all the data needed for simulation
-        void printStats() const;                        // Prints statistics of every vehicle 
-        void simulate();                                // Runs the simulation
+        // Method to create the interface for inputting data for the next simulational run
+        void inputData();
+        // Method to print current run stats into the console
+        void printStats() const;                        
+        // Method to start simulation
+        void simulate();                                
 
+        // Getters
         unsigned int getNumberOfVehicles() const;
         vector<vector<unsigned int>> getMap() const;
         vector<Vehicle*> getVehicles() const;
         vector<Road*> getRoads() const;
         vector<Point*> getPoints() const;
 
-        void setNumberOfVehicles(unsigned int); 
-        void addVehicle(Vehicle*);                      // Adds an existing vehicle to the array
+        // Setters
+        void setNumberOfVehicles(unsigned int);
+        void setMap(const Map&);
+
+        // Adders
+        void addVehicle(Vehicle*);                      
+        void addRoad(Road*);                            
+        void addPoint(Point*);                          
 };
 
 #endif
