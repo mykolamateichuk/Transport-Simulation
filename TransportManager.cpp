@@ -1,9 +1,6 @@
 #include "TransportManager.h"
 #include <string>
 
-TransportManager::TransportManager() = default;
-TransportManager::~TransportManager() = default;
-
 std::string generateRandomCarNumber() {
 	std::string number;
 
@@ -18,7 +15,7 @@ void TransportManager::setUpSimulation() {};
 
 void TransportManager::inputData() {};
 
-void TransportManager::printStats() {
+void TransportManager::printStats() const {
 	for (auto vehicle : vehicles) {
 		std::cout << "********************************" << std::endl;
 		std::cout << "Vehicle: " << vehicle->getNumber() << std::endl;
@@ -29,25 +26,33 @@ void TransportManager::printStats() {
 
 
 // Getters
-unsigned int TransportManager::getNumberOfVehicles() {
+unsigned int TransportManager::getNumberOfVehicles() const {
 	return numberOfVehicles;
 };
 
-vector<vector<unsigned int>> TransportManager::getMap() {
-	return map;
+vector<vector<unsigned int>> TransportManager::getMap() const {
+	return map.getMap();
 };
 
-vector<Vehicle*> TransportManager::getVehicles() {
+vector<Vehicle*> TransportManager::getVehicles() const {
 	return vehicles;
 };
 
+vector<Road*> TransportManager::getRoads() const {
+	return roads;
+}
+
+vector<Point*> TransportManager::getPoints() const {
+	return points;
+}
+
 
 // Setters
-void TransportManager::setNumberOfVehicles(unsigned int new_numberOfVehicles) {
-	numberOfVehicles = new_numberOfVehicles;
+void TransportManager::setNumberOfVehicles(unsigned int _numberOfVehicles) {
+	numberOfVehicles = _numberOfVehicles;
 };
 
-void TransportManager::addVehicle(Vehicle* new_vehicle) {
-	vehicles.push_back(new_vehicle);
+void TransportManager::addVehicle(Vehicle* _vehicle) {
+	vehicles.push_back(_vehicle);
 	numberOfVehicles++;
 };
