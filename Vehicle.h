@@ -13,14 +13,14 @@ class Vehicle
 private:
     int position;
 
-    string number = "CB0000AX";
-    int speed = 40;
-    bool canMove = true;
+    string number;
+    int speed;
+    bool canMove;
 
-    int gasCapacity = 100;
-    float gasLevel = 65;
+    int gasCapacity;
+    float gasLevel;
 
-    int removal = 0;
+    int removal;
     queue<int> route;
     queue<int> appointments;
 
@@ -29,34 +29,35 @@ private:
     void update_position();
     void update_gasLevel();
 
-    void expandRoute(vector<int> poins);
+    void expandRoute(vector<int>);
 
 public:
-    Vehicle(string number, int speed, int gasCapacity, int gasLevel, int position, Navigator *navigator);
+    Vehicle(string, int, int, int, int, Navigator *);
 
-    void setAppointment(int point);
-    void addAppointment(int point);
-
-    void setSpeed(int speed);
+    void setAppointment(int);
+    void addAppointment(int);
 
     void refuel();
 
     void update();
 
-    int getPosition() { return position; }
-    int getAppointment()
-    {
-        if (appointments.empty())
-            return -1;
-        return appointments.front();
-    }
-    queue<int> getRoute() { return route; }
+    // get
+    int getPosition();
+    int getAppointment();
+    queue<int> getRoute();
 
-    int getSpeed() { return speed; }
-    string getNumber() { return number; }
+    int getSpeed();
+    string getNumber();
 
-    int getGasLevel() { return gasLevel; }
-    int getGasCapacity() { return gasCapacity; }
+    int getGasLevel();
+    int getGasCapacity();
+
+    // set
+    void setGasLevel(int);
+    void setGasCapacity(int);
+
+    void setSpeed(int);
+    void setNumber(string);
 };
 
 #endif
