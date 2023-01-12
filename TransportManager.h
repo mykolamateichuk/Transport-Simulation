@@ -8,6 +8,22 @@
 #include "Point.h"
 
 #include <vector>
+#include <unordered_map>
+
+struct Vehicles {
+    std::vector<Vehicle*> vehicles;
+    std::vector<Bus*> busses;
+    std::vector<Truck*> trucks;
+    std::vector<Bicycle*> bicycles;
+};
+
+struct Points {
+    std::vector<EntertainmentPoint*> entertainments;
+    std::vector<GasStationPoint*> gasStations;
+    std::vector<BusStopPoint*> busStops;
+    std::vector<ParkingPoint*> parkings;
+    std::vector<WarehousePoint*> warehouses;
+};
 
 class TransportManager {
     private:
@@ -17,10 +33,10 @@ class TransportManager {
         // Map of the run represented by weighted graph
         Map map;                                        
 
-        // Vectors for storing current vehicles, roads and points that are currently in the run
-        std::vector<Vehicle*> vehicles;                      
+        // Structures for storing current vehicles, roads and points that are currently in the run
+        Vehicles allVehicles;
         std::vector<Road*> roads;                            
-        std::vector<Point*> points;                          
+        Points allPoints;
         
         void setUpSimulation(unsigned int, const Map&);                
     public:
@@ -34,18 +50,27 @@ class TransportManager {
         // Getters
         unsigned int getNumberOfVehicles() const;
         std::vector<std::vector<unsigned int>> getMap() const;
-        std::vector<Vehicle*> getVehicles() const;
+        Vehicles getVehicles() const;
         std::vector<Road*> getRoads() const;
-        std::vector<Point*> getPoints() const;
+        Points getPoints() const;
 
         // Setters
         void setNumberOfVehicles(unsigned int);
         void setMap(const Map&);
 
         // Adders
-        void addVehicle(Vehicle*);                      
+        void addVehicle(Vehicle*);
+        void addBus(Bus*);
+        void addTruck(Truck*);
+        void addBicycle(Bicycle*);
+
         void addRoad(Road*);                            
-        void addPoint(Point*);                          
+        
+        void addEntertainment(EntertainmentPoint*);
+        void addGasStation(GasStationPoint*);
+        void addBusStop(BusStopPoint*);
+        void addParking(ParkingPoint*);
+        void addWarehouse(WarehousePoint*);
 };
 
 #endif
