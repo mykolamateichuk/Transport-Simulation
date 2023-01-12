@@ -7,7 +7,7 @@ std::string generateRandomCarNumber() {
 	std::string number;
 
 	number += char(rand() % 90 - 65) + char(rand() % 90 - 65);
-	number += to_string(rand() % 10000);
+	number += std::to_string(rand() % 10000);
 	number += char(rand() % 90 - 65) + char(rand() % 90 - 65);
 	
 	return number;
@@ -68,7 +68,7 @@ void TransportManager::printStats() const {
 	for (const auto& vehicle : vehicles) {
 		//std::cout << "********************************" << std::endl;
 		std::cout << "Vehicle:    " << vehicle->getNumber() << std::endl;
-		std::cout << "Next point: " << vehicle->getAppointment() << std::endl;
+		//std::cout << "Next point: " << vehicle->getAppointment() << std::endl;
 		std::cout << "Gas level:  " << vehicle->getGasLevel() << std::endl;
 	}
 };
@@ -79,19 +79,19 @@ unsigned int TransportManager::getNumberOfVehicles() const {
 	return numberOfVehicles;
 };
 
-vector<vector<unsigned int>> TransportManager::getMap() const {
+std::vector<std::vector<unsigned int>> TransportManager::getMap() const {
 	return map.getMap();
 };
 
-vector<Vehicle*> TransportManager::getVehicles() const {
+std::vector<Vehicle*> TransportManager::getVehicles() const {
 	return vehicles;
 };
 
-vector<Road*> TransportManager::getRoads() const {
+std::vector<Road*> TransportManager::getRoads() const {
 	return roads;
 }
 
-vector<Point*> TransportManager::getPoints() const {
+std::vector<Point*> TransportManager::getPoints() const {
 	return points;
 }
 

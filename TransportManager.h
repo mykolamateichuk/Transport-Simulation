@@ -18,9 +18,9 @@ class TransportManager {
         Map map;                                        
 
         // Vectors for storing current vehicles, roads and points that are currently in the run
-        vector<Vehicle*> vehicles;                      
-        vector<Road*> roads;                            
-        vector<Point*> points;                          
+        std::vector<Vehicle*> vehicles;                      
+        std::vector<Road*> roads;                            
+        std::vector<Point*> points;                          
         
         void setUpSimulation(unsigned int, const Map&);                
     public:
@@ -33,10 +33,10 @@ class TransportManager {
 
         // Getters
         unsigned int getNumberOfVehicles() const;
-        vector<vector<unsigned int>> getMap() const;
-        vector<Vehicle*> getVehicles() const;
-        vector<Road*> getRoads() const;
-        vector<Point*> getPoints() const;
+        std::vector<std::vector<unsigned int>> getMap() const;
+        std::vector<Vehicle*> getVehicles() const;
+        std::vector<Road*> getRoads() const;
+        std::vector<Point*> getPoints() const;
 
         // Setters
         void setNumberOfVehicles(unsigned int);

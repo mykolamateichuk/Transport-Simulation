@@ -4,7 +4,7 @@ using namespace std;
 
 // private
 
-void Vehicle::update_position()
+/*void Vehicle::update_position()
 {
     removal += speed;
 
@@ -17,9 +17,8 @@ void Vehicle::update_position()
 
     if (!appointments.empty() && appointments.front() == position)
         appointments.pop();
-}
-
-void Vehicle::update_gasLevel()
+}*/
+/*void Vehicle::update_gasLevel()
 {
     gasLevel--;
 
@@ -28,38 +27,41 @@ void Vehicle::update_gasLevel()
         gasLevel = 0;
         speed = 0;
     }
-}
+}*/
 
-void Vehicle::expandRoute(vector<int> poins)
-{
+void Vehicle::expandRoute(std::vector<Point*> poins) {
     for (int i = 0; i < poins.size(); i++)
         route.push(poins[i]);
 }
 
 // public
 
-Vehicle::Vehicle(string number, int speed, int gasCapacity, int gasLevel, int position, Navigator *navigator)
+Vehicle::Vehicle()
+    : number(""), speed(0), canMove(true), gasCapacity(15), gasLevel(1.0f)
 {
-    this->removal = 0;
-    this->canMove = true;
-    this->number = number;
-    this->position = position;
-    this->navigator = navigator;
-
-    if (speed < 0 || gasCapacity < 0 || gasLevel < 0 || gasCapacity < gasLevel)
-    {
-        this->speed = 40;
-        this->gasCapacity = 100;
-        this->gasLevel = this->gasCapacity;
-        return;
-    }
-
-    this->speed = speed;
-    this->gasCapacity = gasCapacity;
-    this->gasLevel = gasLevel;
+    route.push(nullptr);
 }
 
-void Vehicle::setAppointment(int point)
+Vehicle::Vehicle
+(std::string _number, unsigned int _speed, bool _canMove, unsigned int _gasCapacity, float _gasLevel, std::queue<Point*> _route)
+    : number(_number),
+      speed(_speed),
+      canMove(_canMove),
+      gasCapacity(_gasCapacity),
+      gasLevel(_gasLevel),
+      route(_route)
+{}
+
+Vehicle::Vehicle(const Vehicle& _vehicle)
+    : number(_vehicle.number),
+      speed(_vehicle.speed),
+      canMove(_vehicle.canMove),
+      gasCapacity(_vehicle.gasCapacity),
+      gasLevel(_vehicle.gasLevel),
+      route(_vehicle.route)
+{}
+
+/*void Vehicle::setAppointment(int point)
 {
     appointments = queue<int>();
     route = queue<int>();
@@ -78,7 +80,7 @@ void Vehicle::addAppointment(int point)
         expandRoute(navigator->findroad(position, point));
 
     route.push(point);
-}
+}/**/
 
 void Vehicle::setSpeed(int speed)
 {
@@ -90,6 +92,7 @@ void Vehicle::setSpeed(int speed)
 
 void Vehicle::refuel() { gasLevel = gasCapacity; }
 
+/*
 void Vehicle::update()
 {
     if (!canMove || speed <= 0 || gasLevel <= 0)
@@ -97,26 +100,26 @@ void Vehicle::update()
 
     if (route.empty())
     {
-        removal = 0;
         return;
     }
 
     update_gasLevel();
     update_position();
 }
+*/
 
 // get
-int Vehicle::getPosition() { return position; }
+//int Vehicle::getPosition() { return position; }
 
-int Vehicle::getAppointment()
+/*int Vehicle::getAppointment()
 {
     if (appointments.empty())
         return -1;
 
     return appointments.front();
-}
+}*/
 
-queue<int> Vehicle::getRoute() { return route; }
+std::queue<Point*> Vehicle::getRoute() { return route; }
 
 int Vehicle::getSpeed() { return speed; }
 string Vehicle::getNumber() { return number; }

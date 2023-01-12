@@ -1,6 +1,6 @@
-#include"navigator.h"
+#include "Navigator.h"
 
-vector<int>Navigator::findroad(int start, int finish) {
+/*vector<int> Navigator::findroad(int start, int finish) {
     queue<int> Queue;
     stack<Edge> Edges;
     vector<int> road;
@@ -16,7 +16,7 @@ vector<int>Navigator::findroad(int start, int finish) {
         nodes[node] = 2;
         for (int j = 0; j < 10; j++)
         {
-            if (mas[node][j] == 1 && nodes[j] == 0)
+            if (map[node][j] == 1 && nodes[j] == 0)
             {
                 Queue.push(j);
                 nodes[j] = 1;
@@ -42,4 +42,4 @@ vector<int>Navigator::findroad(int start, int finish) {
         finalroad.push_back(road[i]);
     }
     return finalroad;
-}
+}/**/

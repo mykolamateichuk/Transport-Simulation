@@ -4,50 +4,47 @@
 #include <queue>
 #include <vector>
 #include <iostream>
+
 #include "navigator.h"
+#include "Point.h"
 
-using namespace std;
-
-class Vehicle
-{
+class Vehicle {
 private:
-    int position;
-
-    string number;
-    int speed;
+    std::string number;
+    unsigned int speed;
     bool canMove;
 
-    int gasCapacity;
+    unsigned int gasCapacity;
     float gasLevel;
 
-    int removal;
-    queue<int> route;
-    queue<int> appointments;
+    std::queue<Point*> route;
+    std::queue<Point*> appointments;
 
-    Navigator *navigator;
-
+    //Navigator *navigator;
+    /*
     void update_position();
     void update_gasLevel();
-
-    void expandRoute(vector<int>);
-
+    */
+    void expandRoute(std::vector<Point*>);
 public:
-    Vehicle(string, int, int, int, int, Navigator *);
+    Vehicle();
+    Vehicle(std::string, unsigned int, bool, unsigned int, float, std::queue<Point*>);
+    Vehicle(const Vehicle&);
 
-    void setAppointment(int);
-    void addAppointment(int);
+    //void setAppointment(Point*);
+    //void addAppointment(Point*);
 
     void refuel();
 
-    void update();
+    //void update();
 
     // get
-    int getPosition();
-    int getAppointment();
-    queue<int> getRoute();
+    //int getPosition();
+    //int getAppointment();
+    std::queue<Point*> getRoute();
 
     int getSpeed();
-    string getNumber();
+    std::string getNumber();
 
     int getGasLevel();
     int getGasCapacity();
@@ -57,7 +54,55 @@ public:
     void setGasCapacity(int);
 
     void setSpeed(int);
-    void setNumber(string);
+    void setNumber(std::string);
+};
+
+class Bus : public Vehicle {
+private:
+    unsigned int maxNumberOfPassengers;
+    unsigned int currNumberOfPassengers;
+
+public:
+    Bus();
+    Bus(unsigned int, unsigned int, std::string, unsigned int, bool, unsigned int, float, std::queue<Point*>);
+    Bus(const Bus&);
+
+    unsigned int getMaxNumberOfPassengers() const;
+    unsigned int getCurrNumberOfPassengers() const;
+
+    Bus& setMaxNumberOfPassengers(unsigned int);
+    Bus& setCurrNumberOfPassengers(unsigned int);
+};
+
+class Truck : public Vehicle {
+private:
+    float maxMassOfCargo;
+    float currMassOfCargo;
+
+public:
+    Truck();
+    Truck(float, float, std::string, unsigned int, bool, unsigned int, float, std::queue<Point*>);
+    Truck(const Truck&);
+
+    float getMaxMassOfCargo() const;
+    float getCurrMassOfCargo() const;
+
+    Truck& setMaxMassOfCargo(float);
+    Truck& setCurrMassOfCargo(float);
+};
+
+class Bicycle : public Vehicle {
+private:
+    float chanceOfGoingOffRoad;
+
+public:
+    Bicycle();
+    Bicycle(float, std::string, unsigned int, bool, unsigned int, float, std::queue<Point*>);
+    Bicycle(const Bicycle&);
+
+    float getChanceOfGoingOffRoad() const;
+
+    Bicycle& setChanceOfGoingOffRoad(float);
 };
 
 #endif

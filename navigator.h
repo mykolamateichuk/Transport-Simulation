@@ -1,21 +1,32 @@
 #ifndef NAVIGATOR_H
 #define NAVIGATOR_H
 
-#include <iostream>
+//#include <iostream>
 #include <queue>
 #include <stack> 
 #include <vector>
-using namespace std;
+
+#include "Map.h"
+#include "Point.h"
+
+//using namespace std;
+
 struct Edge {
-    int begin;
-    int end;
+    Point* begin;
+    Point* end;
 };
+
 class Navigator {
 private:
-    vector<vector<int>> mas;
+    Map map;
 public:
-    Navigator(vector<vector<int>> mas) {this->mas = mas;}
-    vector<int> findroad(int start, int finish);
+    Navigator();
+    Navigator(const Map&);
+    Navigator(const Navigator&);
+
+    //queue<Point*> findRoute(Point*, Point*);
+
+    std::vector<int> findroad(int, int);
 };
 
 #endif
