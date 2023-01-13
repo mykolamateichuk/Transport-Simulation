@@ -6,7 +6,7 @@ ParkingPoint::ParkingPoint()
 {}
 
 ParkingPoint::ParkingPoint
-(float _chanceOfStaying, Type _type, unsigned int _id, unsigned int _numberOfSlots, const std::vector<Road>& _connectedRoads)
+(float _chanceOfStaying, PointType _type, unsigned int _id, unsigned int _numberOfSlots, const std::vector<Road>& _connectedRoads)
 	: Point(_type, _id, _numberOfSlots, _connectedRoads),
 	  chanceOfStaying(_chanceOfStaying)
 {}

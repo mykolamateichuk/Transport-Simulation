@@ -6,7 +6,7 @@ Point::Point()
 	connectedRoads.resize(0);
 }
 
-Point::Point(Type _type, unsigned int _id, unsigned int _numberOfSlots, const std::vector<Road>& _connectedRoads)
+Point::Point(PointType _type, unsigned int _id, unsigned int _numberOfSlots, const std::vector<Road>& _connectedRoads)
 	: type(_type), 
 	  id(_id),
 	  numberOfSlots(_numberOfSlots),
@@ -20,7 +20,7 @@ Point::Point(const Point& _point)
 	  connectedRoads(_point.connectedRoads)
 {}
 
-Type Point::getType() const {
+PointType Point::getType() const {
 	return type;
 }
 
@@ -36,7 +36,7 @@ std::vector<Road> Point::getConnectedRoads() const {
 	return connectedRoads;
 }
 
-Point& Point::setType(Type _type) {
+Point& Point::setType(PointType _type) {
 	type = _type;
 	return *this;
 }

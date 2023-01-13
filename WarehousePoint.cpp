@@ -6,7 +6,7 @@ WarehousePoint::WarehousePoint()
 {}
 
 WarehousePoint::WarehousePoint
-(float _massOfCargo, Type _type, unsigned int _id, unsigned int _numberOfSlots, const std::vector<Road>& _connectedRoads)
+(float _massOfCargo, PointType _type, unsigned int _id, unsigned int _numberOfSlots, const std::vector<Road>& _connectedRoads)
 	: Point(_type, _id, _numberOfSlots, _connectedRoads),
 	  massOfCargo(_massOfCargo)
 {}

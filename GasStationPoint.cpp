@@ -6,7 +6,7 @@ GasStationPoint::GasStationPoint()
 {}
 
 GasStationPoint::GasStationPoint
-(float _coef, Type _type, unsigned int _id, unsigned int _numberOfSlots, const std::vector<Road>& _connectedRoads) 
+(float _coef, PointType _type, unsigned int _id, unsigned int _numberOfSlots, const std::vector<Road>& _connectedRoads) 
 	: Point(_type, _id, _numberOfSlots, _connectedRoads),
 	  refuellingSpeedCoef(_coef)
 {}

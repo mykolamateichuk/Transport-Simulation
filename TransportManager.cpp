@@ -117,7 +117,21 @@ void TransportManager::setUpPoints() {
 		}
 	}
 
-	// To be continued
+	/*unsigned int numEntertainment		= (int)(numberOfPoints * 0.3);
+	const unsigned int numGasStation	= (int)(numberOfPoints * 0.2);
+	const unsigned int numBusStop		= (int)(numberOfPoints * 0.2);
+	const unsigned int numParking		= (int)(numberOfPoints * 0.2);
+	const unsigned int numWarehouse		= (int)(numberOfPoints * 0.1);
+
+	numEntertainment += numberOfPoints - (numEntertainment + numGasStation + numBusStop + numParking + numWarehouse);
+
+	allPoints.entertainments.resize(numEntertainment);
+	allPoints.gasStations.resize(numGasStation);
+	allPoints.busStops.resize(numBusStop);
+	allPoints.parkings.resize(numParking);
+	allPoints.warehouses.resize(numWarehouse);*/
+
+
 }
 
 void TransportManager::setUpRoads() {

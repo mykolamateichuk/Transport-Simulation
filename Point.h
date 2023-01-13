@@ -4,7 +4,7 @@
 #include <vector>
 #include "Road.h"
 
-enum Type {
+enum PointType {
 	NoType,
 	Entertainment,
 	GasStation,
@@ -15,22 +15,22 @@ enum Type {
 
 class Point {
 private:
-	Type type;
+	PointType type;
 	unsigned int id;
 	unsigned int numberOfSlots;
 	std::vector<Road> connectedRoads;
 
 public:
 	Point();
-	Point(Type, unsigned int, unsigned int, const std::vector<Road>&);
+	Point(PointType, unsigned int, unsigned int, const std::vector<Road>&);
 	Point(const Point&);
 
-	Type getType() const;
+	PointType getType() const;
 	unsigned int getId() const;
 	unsigned int getNumberOfSlots() const;
 	std::vector<Road> getConnectedRoads() const;
 
-	Point& setType(Type _type);
+	Point& setType(PointType _type);
 	Point& setId(unsigned int _id);
 	Point& setNumberOfSlots(unsigned int _numberOfSlots);
 	Point& setConnectedRoads(const std::vector<Road>&);
@@ -44,7 +44,7 @@ private:
 
 public:
 	EntertainmentPoint();
-	EntertainmentPoint(unsigned int, Type, unsigned int, unsigned int, const std::vector<Road>&);
+	EntertainmentPoint(unsigned int, PointType, unsigned int, unsigned int, const std::vector<Road>&);
 	EntertainmentPoint(const EntertainmentPoint&);
 
 	unsigned int getDurationOfStop() const;
@@ -58,7 +58,7 @@ private:
 
 public:
 	GasStationPoint();
-	GasStationPoint(float, Type, unsigned int, unsigned int, const std::vector<Road>&);
+	GasStationPoint(float, PointType, unsigned int, unsigned int, const std::vector<Road>&);
 	GasStationPoint(const GasStationPoint&);
 
 	float getRefuellingSpeedCoef() const;
@@ -72,7 +72,7 @@ private:
 
 public:
 	BusStopPoint();
-	BusStopPoint(unsigned int, Type, unsigned int, unsigned int, const std::vector<Road>&);
+	BusStopPoint(unsigned int, PointType, unsigned int, unsigned int, const std::vector<Road>&);
 	BusStopPoint(const BusStopPoint&);
 
 	unsigned int getNumberOfPassengers() const;
@@ -86,7 +86,7 @@ private:
 
 public:
 	ParkingPoint();
-	ParkingPoint(float, Type, unsigned int, unsigned int, const std::vector<Road>&);
+	ParkingPoint(float, PointType, unsigned int, unsigned int, const std::vector<Road>&);
 	ParkingPoint(const ParkingPoint&);
 
 	float getChanceOfStaying() const;
@@ -100,7 +100,7 @@ private:
 
 public:
 	WarehousePoint();
-	WarehousePoint(float, Type, unsigned int, unsigned int, const std::vector<Road>&);
+	WarehousePoint(float, PointType, unsigned int, unsigned int, const std::vector<Road>&);
 	WarehousePoint(const WarehousePoint&);
 
 	float getMassOfCargo() const;
