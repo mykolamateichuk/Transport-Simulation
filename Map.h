@@ -2,6 +2,23 @@
 #define MAP_H
 
 #include <vector>
+#include "Point.h"
+
+class Cell {
+private:
+	PointType point;
+	unsigned int roadLength;
+public:
+	Cell();
+	Cell(PointType, unsigned int);
+	Cell(const Cell&);
+
+	PointType getPoint() const;
+	unsigned int getRoadLength() const;
+
+	Cell& setPoint(PointType);
+	Cell& setRoadLength(unsigned int);
+};
 
 class Map {
 private:
