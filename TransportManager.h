@@ -38,7 +38,12 @@ class TransportManager {
         std::vector<Road*> roads;                            
         Points allPoints;
         
-        void setUpSimulation(unsigned int, const Map&);                
+
+        void setUpRandomVehicleStats();
+        void setUpRoads();
+        void setUpPoints();
+
+        void setUpSimulation();
     public:
         // Method to create the interface for inputting data for the next simulational run
         void inputData();

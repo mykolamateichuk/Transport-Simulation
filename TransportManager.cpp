@@ -24,10 +24,10 @@ std::string generateRandomBicycleNumber() {
 	return number;
 }
 
-void TransportManager::setUpSimulation(unsigned int _numberOfVehicles, const Map& _map) {
-	const unsigned int numTrucks	= (int) (numberOfVehicles * 0.1);
-	const unsigned int numBusses	= (int) (numberOfVehicles * 0.2);
-	const unsigned int numBicycles	= (int) (numberOfVehicles * 0.1);
+void TransportManager::setUpRandomVehicleStats() {
+	const unsigned int numTrucks = (int)(numberOfVehicles * 0.1);
+	const unsigned int numBusses = (int)(numberOfVehicles * 0.2);
+	const unsigned int numBicycles = (int)(numberOfVehicles * 0.1);
 
 	const unsigned int numVehicles = numberOfVehicles - (numTrucks + numBusses + numBicycles);
 
@@ -104,6 +104,42 @@ void TransportManager::setUpSimulation(unsigned int _numberOfVehicles, const Map
 		}
 		index++;
 	}
+}
+
+void TransportManager::setUpPoints() {
+	unsigned int numberOfPoints = 0;
+
+	for (const auto& row : map.getMap()) {
+		for (const auto& element : row) {
+			if (element != 0) {
+				numberOfPoints++;
+			}
+		}
+	}
+
+	// To be continued
+}
+
+void TransportManager::setUpRoads() {
+	unsigned int numberOfRoads = 0;
+
+	for (const auto& row : map.getMap()) {
+		for (const auto& element : row) {
+			if (element != 0) {
+				numberOfRoads++;
+			}
+		}
+	}
+
+	roads.resize(numberOfRoads);
+	
+	// To be continued
+}
+
+void TransportManager::setUpSimulation() {
+	setUpRandomVehicleStats();
+	setUpPoints();
+	setUpRoads();
 };
 
 void TransportManager::inputData() {
