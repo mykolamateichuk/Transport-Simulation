@@ -9,23 +9,90 @@ std::string generateRandomCarNumber() {
 	number += char(rand() % 90 - 65) + char(rand() % 90 - 65);
 	number += std::to_string(rand() % 10000);
 	number += char(rand() % 90 - 65) + char(rand() % 90 - 65);
-	
+
 	return number;
 }
 
 void TransportManager::setUpSimulation(unsigned int _numberOfVehicles, const Map& _map) {
-	allVehicles.vehicles.resize(numberOfVehicles);
-	const unsigned int num_trucks	= (int) (numberOfVehicles * 0.1);
-	const unsigned int num_busses	= (int) (numberOfVehicles * 0.2);
-	const unsigned int num_bicycles = (int) (numberOfVehicles * 0.1);
+	const unsigned int numTrucks	= (int) (numberOfVehicles * 0.1);
+	const unsigned int numBusses	= (int) (numberOfVehicles * 0.2);
+	const unsigned int numBicycles	= (int) (numberOfVehicles * 0.1);
 
-	std::vector<unsigned int> rand_trucks(num_trucks, rand() % numberOfVehicles);
-	std::vector<unsigned int> rand_busses(num_busses, rand() % numberOfVehicles);
-	std::vector<unsigned int> rand_bicycles(num_bicycles, rand() % numberOfVehicles);
+	const unsigned int numVehicles = numberOfVehicles - (numTrucks + numBusses + numBicycles);
 
-	
+	allVehicles.vehicles.resize(numVehicles);
+	allVehicles.trucks.resize(numTrucks);
+	allVehicles.busses.resize(numBusses);
+	allVehicles.bicycles.resize(numBicycles);
 
-	// To be continued
+	std::vector<unsigned int> randomIndexVehicles((int)(numVehicles * 0.7), rand() % numVehicles);
+	std::vector<unsigned int> randomIndexTrucks((int)(numTrucks * 0.7), rand() % numTrucks);
+	std::vector<unsigned int> randomIndexBusses((int)(numTrucks * 0.7), rand() % numBusses);
+	std::vector<unsigned int> randomIndexBicycles((int)(numTrucks * 0.7), rand() % numBicycles);
+
+	unsigned int index = 0;
+	for (auto& vehicle : allVehicles.vehicles) {
+		vehicle->setNumber(generateRandomCarNumber());
+
+		for (const auto& randomVehicle : randomIndexVehicles) {
+			if (index == randomVehicle) {
+				vehicle->setSpeed(rand() % 31 + 50);
+				vehicle->setGasLevel((float)(rand() % 81 + 20) / 100);
+				vehicle->setGasCapacity(rand() % 11 + 10);
+			}
+		}
+		index++;
+	}
+
+	index = 0;
+	for (auto& truck : allVehicles.trucks) {
+		truck->setNumber(generateRandomCarNumber());
+
+		for (const auto& randomTruck : randomIndexTrucks) {
+			if (index == randomTruck) {
+				truck->setSpeed(rand() % 31 + 30);
+				truck->setGasLevel((float)(rand() % 81 + 20) / 100);
+				truck->setGasCapacity(rand() % 11 + 10);
+
+				truck->setMaxMassOfCargo((float)(rand() % 16 + 5));
+				float currMassCoef = (rand() % 101) / 100;
+				truck->setCurrMassOfCargo(truck->getMaxMassOfCargo() * currMassCoef);
+			}
+		}
+		index++;
+	}
+
+	index = 0;
+	for (auto& bus : allVehicles.busses) {
+		bus->setNumber(generateRandomCarNumber());
+
+		for (const auto& randomBus : randomIndexBusses) {
+			if (index == randomBus) {
+				bus->setSpeed(rand() % 31 + 30);
+				bus->setGasLevel((float)(rand() % 81 + 20) / 100);
+				bus->setGasCapacity(rand() % 11 + 10);
+
+				bus->setMaxNumberOfPassengers(rand() % 20 + 20);
+				float currPassNumberCoef = (rand() % 101) / 100;
+				bus->setCurrNumberOfPassengers(bus->getMaxNumberOfPassengers() * currPassNumberCoef);
+			}
+		}
+		index++;
+	}
+
+	index = 0;
+	for (auto& bicycle : allVehicles.bicycles) {
+		//bicycle->setNumber(generateRandomBicycleNumber());
+
+		for (const auto& randomBicycle : randomIndexBicycles) {
+			if (index == randomBicycle) {
+				bicycle->setSpeed(rand() % 11 + 10);
+
+				bicycle->setChanceOfGoingOffRoad((float)((rand() % 81) / 100));
+			}
+		}
+		index++;
+	}
 };
 
 void TransportManager::inputData() {
@@ -102,6 +169,10 @@ Points TransportManager::getPoints() const {
 void TransportManager::setNumberOfVehicles(unsigned int _numberOfVehicles) {
 	numberOfVehicles = _numberOfVehicles;
 };
+
+void TransportManager::setMap(const Map& _map) {
+	map = _map;
+}
 
 void TransportManager::addVehicle(Vehicle* _vehicle) {
 	allVehicles.vehicles.push_back(_vehicle);

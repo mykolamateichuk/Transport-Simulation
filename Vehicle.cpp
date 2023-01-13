@@ -37,7 +37,7 @@ void Vehicle::expandRoute(std::vector<Point*> poins) {
 // public
 
 Vehicle::Vehicle()
-    : number(""), speed(0), canMove(true), gasCapacity(15), gasLevel(1.0f)
+    : number(""), speed(50), canMove(true), gasCapacity(15), gasLevel(1.0f)
 {
     route.push(nullptr);
 }
