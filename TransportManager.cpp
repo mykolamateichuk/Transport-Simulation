@@ -13,6 +13,17 @@ std::string generateRandomCarNumber() {
 	return number;
 }
 
+std::string generateRandomBicycleNumber() {
+	std::string number;
+
+	number += char(rand() % 90 - 65);
+	number += char(rand() % 90 - 65);
+	number += char(rand() % 90 - 65);
+	number += std::to_string(rand() % 100);
+	
+	return number;
+}
+
 void TransportManager::setUpSimulation(unsigned int _numberOfVehicles, const Map& _map) {
 	const unsigned int numTrucks	= (int) (numberOfVehicles * 0.1);
 	const unsigned int numBusses	= (int) (numberOfVehicles * 0.2);
@@ -82,7 +93,7 @@ void TransportManager::setUpSimulation(unsigned int _numberOfVehicles, const Map
 
 	index = 0;
 	for (auto& bicycle : allVehicles.bicycles) {
-		//bicycle->setNumber(generateRandomBicycleNumber());
+		bicycle->setNumber(generateRandomBicycleNumber());
 
 		for (const auto& randomBicycle : randomIndexBicycles) {
 			if (index == randomBicycle) {
