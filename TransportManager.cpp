@@ -107,47 +107,65 @@ void TransportManager::setUpRandomVehicleStats() {
 }
 
 void TransportManager::setUpPoints() {
-	unsigned int numberOfPoints = 0;
 
 	for (const auto& row : map.getMap()) {
 		for (const auto& element : row) {
-			if (element != 0) {
-				numberOfPoints++;
+			std::vector<Road> connectedRoads(0);
+			Point* point = new Point(NoType, element.getPointId(), rand() % 11, connectedRoads);
+
+			EntertainmentPoint entertainment = EntertainmentPoint(*point);
+			GasStationPoint gasStation		 = GasStationPoint(*point);
+			BusStopPoint busStop			 = BusStopPoint(*point);
+			ParkingPoint parking			 = ParkingPoint(*point);
+			WarehousePoint warehouse		 = WarehousePoint(*point);
+
+			switch (element.getPoint()) {
+				case NoType:
+					break;
+				case Entertainment:
+					entertainment.setType(Entertainment);
+
+					allPoints.entertainments.push_back(&entertainment);
+					break;
+				case GasStation:
+					gasStation.setType(GasStation);
+
+					allPoints.gasStations.push_back(&gasStation);
+					break;
+				case BusStop:
+					busStop.setType(BusStop);
+
+					allPoints.busStops.push_back(&busStop);
+					break;
+				case Parking:
+					parking.setType(Parking);
+
+					allPoints.parkings.push_back(&parking);
+					break;
+				case Warehouse:
+					warehouse.setType(Warehouse);
+
+					allPoints.warehouses.push_back(&warehouse);
+					break;
 			}
 		}
 	}
-
-	/*unsigned int numEntertainment		= (int)(numberOfPoints * 0.3);
-	const unsigned int numGasStation	= (int)(numberOfPoints * 0.2);
-	const unsigned int numBusStop		= (int)(numberOfPoints * 0.2);
-	const unsigned int numParking		= (int)(numberOfPoints * 0.2);
-	const unsigned int numWarehouse		= (int)(numberOfPoints * 0.1);
-
-	numEntertainment += numberOfPoints - (numEntertainment + numGasStation + numBusStop + numParking + numWarehouse);
-
-	allPoints.entertainments.resize(numEntertainment);
-	allPoints.gasStations.resize(numGasStation);
-	allPoints.busStops.resize(numBusStop);
-	allPoints.parkings.resize(numParking);
-	allPoints.warehouses.resize(numWarehouse);*/
-
-
 }
 
 void TransportManager::setUpRoads() {
-	unsigned int numberOfRoads = 0;
 
-	for (const auto& row : map.getMap()) {
+	/*for (const auto& row : map.getMap()) {
 		for (const auto& element : row) {
-			if (element != 0) {
-				numberOfRoads++;
+			unsigned int index = 0;
+			if (element.getPoint() != NoType) {
+				Road* road = &Road(rand() % 401 + 100, rand() % 51 + 50, rand() % 25);
+				roads.push_back(road);
+
+				roadStartEndPoints.insert(road, std::make_pair<element.getPointId(), element.getConnectedPointIds().at(index)>);
 			}
 		}
-	}
+	}*/
 
-	roads.resize(numberOfRoads);
-	
-	// To be continued
 }
 
 void TransportManager::setUpSimulation() {
@@ -165,22 +183,18 @@ void TransportManager::inputData() {
 	std::cin >> ans;
 
 	if (ans == 'Y') {
-		unsigned int rows, columns;
-		std::cout << "Width of your map (matrix) > ";
-		std::cin >> columns;
+		unsigned int size;
+		std::cout << "Size of your map (matrix) > ";
+		std::cin >> size;
 
-		std::cout << "Height of your map (matrix) > ";
-		std::cin >> rows;
-		
-		unsigned int temp;
-		std::vector<std::vector<unsigned int>> temp_map(rows, std::vector<unsigned int>(columns, 0));
-		for (int i = 0; i < rows; ++i) {
-			for (int j = 0; j < columns; ++j) {
-				std::cout << "[" << i << "][" << j << "]" << " = ";
+		Cell temp;
+		std::vector<std::vector<Cell>> temp_map(size, std::vector<Cell>(size, Cell()));
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
+				std::cout << "[" << i << "][" << j << "]\n";
 				std::cin >> temp;
 				temp_map[i][j] = temp;
 			}
-			std::cout << "\n";
 		}
 
 		map.setMap(temp_map);
@@ -209,7 +223,7 @@ unsigned int TransportManager::getNumberOfVehicles() const {
 	return numberOfVehicles;
 };
 
-std::vector<std::vector<unsigned int>> TransportManager::getMap() const {
+std::vector<std::vector<Cell>> TransportManager::getMap() const {
 	return map.getMap();
 };
 

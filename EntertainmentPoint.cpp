@@ -16,6 +16,11 @@ EntertainmentPoint::EntertainmentPoint(const EntertainmentPoint& _point)
 	  durationOfStop(_point.durationOfStop)
 {}
 
+EntertainmentPoint::EntertainmentPoint(const Point& _point) 
+	: Point(_point),
+	  durationOfStop(rand() % 5)
+{}
+
 unsigned int EntertainmentPoint::getDurationOfStop() const {
 	return durationOfStop;
 }

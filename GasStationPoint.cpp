@@ -16,6 +16,11 @@ GasStationPoint::GasStationPoint(const GasStationPoint& _point)
 	  refuellingSpeedCoef(_point.refuellingSpeedCoef)
 {}
 
+GasStationPoint::GasStationPoint(const Point& _point)
+	: Point(_point),
+	  refuellingSpeedCoef((rand() % 81) / 100)
+{}
+
 float GasStationPoint::getRefuellingSpeedCoef() const {
 	return refuellingSpeedCoef;
 }

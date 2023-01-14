@@ -35,9 +35,9 @@ class TransportManager {
 
         // Structures for storing current vehicles, roads and points that are currently in the run
         Vehicles allVehicles;
-        std::vector<Road*> roads;                            
+        std::vector<Road*> roads;
+        std::unordered_map<Road*, std::pair<Point*, Point*>> roadStartEndPoints;
         Points allPoints;
-        
 
         void setUpRandomVehicleStats();
         void setUpRoads();
@@ -54,7 +54,7 @@ class TransportManager {
 
         // Getters
         unsigned int getNumberOfVehicles() const;
-        std::vector<std::vector<unsigned int>> getMap() const;
+        std::vector<std::vector<Cell>> getMap() const;
         Vehicles getVehicles() const;
         std::vector<Road*> getRoads() const;
         Points getPoints() const;

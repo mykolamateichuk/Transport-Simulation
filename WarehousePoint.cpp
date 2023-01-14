@@ -16,6 +16,11 @@ WarehousePoint::WarehousePoint(const WarehousePoint& _point)
 	  massOfCargo(_point.massOfCargo)
 {}
 
+WarehousePoint::WarehousePoint(const Point& _point) 
+	: Point(_point),
+	  massOfCargo(0)
+{}
+
 float WarehousePoint::getMassOfCargo() const {
 	return massOfCargo;
 }

@@ -16,6 +16,11 @@ BusStopPoint::BusStopPoint(const BusStopPoint& _point)
 	  numberOfPassengers(_point.numberOfPassengers)
 {}
 
+BusStopPoint::BusStopPoint(const Point& _point)
+	: Point(_point),
+	  numberOfPassengers(0)
+{}
+
 unsigned int BusStopPoint::getNumberOfPassengers() const {
 	return numberOfPassengers;
 }

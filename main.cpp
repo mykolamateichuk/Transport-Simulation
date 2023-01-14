@@ -12,7 +12,7 @@ int main() {
 
     for (const auto& row : manager.getMap()) {
         for (const auto& column : row) {
-            std::cout << column << " ";
+            std::cout << column << "\n";
         }
         std::cout << "\n";
     }

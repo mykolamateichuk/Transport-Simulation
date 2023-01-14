@@ -47,6 +47,8 @@ public:
 	EntertainmentPoint(unsigned int, PointType, unsigned int, unsigned int, const std::vector<Road>&);
 	EntertainmentPoint(const EntertainmentPoint&);
 
+	EntertainmentPoint(const Point&);
+
 	unsigned int getDurationOfStop() const;
 
 	EntertainmentPoint& setDurationOfStop(unsigned int);
@@ -60,6 +62,8 @@ public:
 	GasStationPoint();
 	GasStationPoint(float, PointType, unsigned int, unsigned int, const std::vector<Road>&);
 	GasStationPoint(const GasStationPoint&);
+
+	GasStationPoint(const Point&);
 
 	float getRefuellingSpeedCoef() const;
 
@@ -75,6 +79,8 @@ public:
 	BusStopPoint(unsigned int, PointType, unsigned int, unsigned int, const std::vector<Road>&);
 	BusStopPoint(const BusStopPoint&);
 
+	BusStopPoint(const Point&);
+
 	unsigned int getNumberOfPassengers() const;
 
 	BusStopPoint& setNumberOfPassengers(unsigned int);
@@ -89,6 +95,8 @@ public:
 	ParkingPoint(float, PointType, unsigned int, unsigned int, const std::vector<Road>&);
 	ParkingPoint(const ParkingPoint&);
 
+	ParkingPoint(const Point&);
+
 	float getChanceOfStaying() const;
 
 	ParkingPoint& setChanceOfStaying(float);
@@ -102,6 +110,8 @@ public:
 	WarehousePoint();
 	WarehousePoint(float, PointType, unsigned int, unsigned int, const std::vector<Road>&);
 	WarehousePoint(const WarehousePoint&);
+
+	WarehousePoint(const Point&);
 
 	float getMassOfCargo() const;
 

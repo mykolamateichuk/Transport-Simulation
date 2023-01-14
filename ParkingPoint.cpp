@@ -16,6 +16,11 @@ ParkingPoint::ParkingPoint(const ParkingPoint& _point)
 	  chanceOfStaying(_point.chanceOfStaying)
 {}
 
+ParkingPoint::ParkingPoint(const Point& _point)
+	: Point(_point),
+	  chanceOfStaying((rand() % 26) + 25)
+{}
+
 float ParkingPoint::getChanceOfStaying() const {
 	return chanceOfStaying;
 }
