@@ -4,52 +4,48 @@ using namespace std;
 
 // private
 
-/*void Vehicle::update_position()
-{
-    removal += speed;
+void Vehicle::update_currPoint() {
+    if (route.empty()) return;
 
-    if (removal >= 1000)
-    {
-        removal = 0;
-        position = route.front();
-        route.pop();
+    currentPoint = route.front();
+    std::reverse(route.begin(), route.end());
+    route.pop_back();
+    std::reverse(route.begin(), route.end());
+}
+
+void Vehicle::update_gasLevel(float _consumption) {
+    if (gasLevel > 0.2) {
+        gasLevel -= _consumption;
     }
-
-    if (!appointments.empty() && appointments.front() == position)
-        appointments.pop();
-}*/
-/*void Vehicle::update_gasLevel()
-{
-    gasLevel--;
-
-    if (gasLevel <= 0)
-    {
-        gasLevel = 0;
-        speed = 0;
+    else {
+        route.clear();
+        route = navigator->findroad(currentPoint, 2);
+        gasLevel = _consumption * route.size();
     }
-}*/
+}
 
-void Vehicle::expandRoute(std::vector<Point*> poins) {
+void Vehicle::expandRoute(std::vector<int> poins) {
     for (int i = 0; i < poins.size(); i++)
-        route.push(poins[i]);
+        route.push_back(poins[i]);
 }
 
 // public
 
 Vehicle::Vehicle()
-    : number(""), speed(50), canMove(true), gasCapacity(15), gasLevel(1.0f)
-{
-    route.push(nullptr);
-}
+    : number(0), speed(50), canMove(true), gasCapacity(15), gasLevel(1.0f), currentPoint(1), navigator(&Navigator()), stopCount(0)
+{}
 
 Vehicle::Vehicle
-(std::string _number, unsigned int _speed, bool _canMove, unsigned int _gasCapacity, float _gasLevel, std::queue<Point*> _route)
+(unsigned int _number, unsigned int _speed, bool _canMove, unsigned int _gasCapacity, float _gasLevel, std::vector<int> _route, Navigator* _nav, int _currPoint, unsigned int _stopCount)
     : number(_number),
       speed(_speed),
       canMove(_canMove),
       gasCapacity(_gasCapacity),
       gasLevel(_gasLevel),
-      route(_route)
+      route(_route),
+      navigator(_nav),
+      currentPoint(_currPoint),
+      stopCount(_stopCount)
 {}
 
 Vehicle::Vehicle(const Vehicle& _vehicle)
@@ -58,29 +54,11 @@ Vehicle::Vehicle(const Vehicle& _vehicle)
       canMove(_vehicle.canMove),
       gasCapacity(_vehicle.gasCapacity),
       gasLevel(_vehicle.gasLevel),
-      route(_vehicle.route)
+      route(_vehicle.route),
+      navigator(_vehicle.navigator),
+      currentPoint(_vehicle.currentPoint),
+      stopCount(_vehicle.stopCount)
 {}
-
-/*void Vehicle::setAppointment(int point)
-{
-    appointments = queue<int>();
-    route = queue<int>();
-
-    expandRoute(navigator->findroad(position, point));
-    route.push(point);
-}
-
-void Vehicle::addAppointment(int point)
-{
-    appointments.push(point);
-
-    if (!route.empty())
-        expandRoute(navigator->findroad(route.back(), point));
-    else
-        expandRoute(navigator->findroad(position, point));
-
-    route.push(point);
-}/**/
 
 void Vehicle::setSpeed(int speed)
 {
@@ -90,45 +68,81 @@ void Vehicle::setSpeed(int speed)
     this->speed = speed;
 }
 
-void Vehicle::refuel() { gasLevel = gasCapacity; }
+void Vehicle::update(float _consumption) {
+    if (!canMove) return;
 
-/*
-void Vehicle::update()
-{
-    if (!canMove || speed <= 0 || gasLevel <= 0)
-        return;
-
-    if (route.empty())
-    {
-        return;
+    if (route.empty()) {
+        route = navigator->findroad(currentPoint, rand() % 10);
     }
 
-    update_gasLevel();
-    update_position();
+    update_currPoint();
+    update_gasLevel(_consumption);
 }
-*/
 
 // get
-//int Vehicle::getPosition() { return position; }
 
-/*int Vehicle::getAppointment()
-{
-    if (appointments.empty())
-        return -1;
-
-    return appointments.front();
-}*/
-
-std::queue<Point*> Vehicle::getRoute() { return route; }
+std::vector<int> Vehicle::getRoute() { return route; }
 
 int Vehicle::getSpeed() { return speed; }
-string Vehicle::getNumber() { return number; }
+unsigned int Vehicle::getNumber() { return number; }
 
-int Vehicle::getGasLevel() { return gasLevel; }
+float Vehicle::getGasLevel() { return gasLevel; }
 int Vehicle::getGasCapacity() { return gasCapacity; }
 
 // set
-void Vehicle::setNumber(string number) { this->number = number; }
-//void Vehicle::setSpeed(int speed) { this->speed = speed >= 0 ? speed : 0; }
-void Vehicle::setGasLevel(int gasLevel) { this->gasLevel = gasLevel <= gasCapacity ? gasLevel : gasCapacity; }
-void Vehicle::setGasCapacity(int gasCapacity) { this->gasCapacity = gasCapacity > gasLevel ? gasCapacity : gasLevel; }
+void Vehicle::setNumber(unsigned int _number) {
+    number = _number;
+}
+void Vehicle::setGasLevel(float _gasLevel) { gasLevel = _gasLevel; }
+void Vehicle::setGasCapacity(int _gasCapacity) { gasCapacity = _gasCapacity; }
+
+void Vehicle::print() const {
+    std::cout << "***********************\n";
+    std::cout << "Number: " << number << "\n";
+    std::cout << "Gas level: " << gasLevel << "\n\n";
+
+    if (!route.empty()) {
+        std::cout << "Destination point: " << route.back() << "\n";
+    }
+    else {
+        std::cout << "Destination point: " << currentPoint << "\n";
+    }
+    std::cout << "Current point: " << currentPoint << "\n";
+    std::cout << "***********************\n";
+}
+
+int Vehicle::getCurrentPoint() const {
+    return currentPoint;
+}
+
+void Vehicle::setCurrentPoint(int _currPoint) {
+    currentPoint = _currPoint;
+}
+
+void Vehicle::setRoute(std::vector<int> _route) {
+    route = _route;
+}
+
+Navigator* Vehicle::getNavigator() const {
+    return navigator;
+}
+
+void Vehicle::setNavigator(Navigator* _nav) {
+    navigator = _nav;
+}
+
+bool Vehicle::getCanMove() const {
+    return canMove;
+}
+
+void Vehicle::setCanMove(bool _canMove) {
+    canMove = _canMove;
+}
+
+unsigned int Vehicle::getStopCount() const {
+    return stopCount;
+}
+
+void Vehicle::setStopCount(unsigned int _stopCount) {
+    stopCount = _stopCount;
+}

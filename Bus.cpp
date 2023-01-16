@@ -8,16 +8,19 @@ Bus::Bus()
 
 Bus::Bus
 (
-	unsigned int _maxNumberOfPassengers, 
-	unsigned int _currNumberOfPassengers, 
-	std::string _number, 
-	unsigned int _speed, 
-	bool _canMove, 
+	unsigned int _maxNumberOfPassengers,
+	unsigned int _currNumberOfPassengers,
+	unsigned int _number,
+	unsigned int _speed,
+	bool _canMove,
 	unsigned int _gasCapacity,
-	float _gasLevel, 
-	std::queue<Point*> _route
+	float _gasLevel,
+	std::vector<int> _route,
+	Navigator* _nav,
+	int _currPoint,
+	unsigned int _stopCount
 )
-	: Vehicle(_number, _speed, _canMove, _gasCapacity, _gasLevel, _route),
+	: Vehicle(_number, _speed, _canMove, _gasCapacity, _gasLevel, _route, _nav, _currPoint, _stopCount),
 	  maxNumberOfPassengers(_maxNumberOfPassengers),
 	  currNumberOfPassengers(_currNumberOfPassengers)
 {}
@@ -44,4 +47,22 @@ Bus& Bus::setMaxNumberOfPassengers(unsigned int _maxNumberOfPassengers) {
 Bus& Bus::setCurrNumberOfPassengers(unsigned int _currNumberOfPassengers) {
 	currNumberOfPassengers = _currNumberOfPassengers;
 	return *this;
+}
+
+void Bus::print() const {
+	Vehicle::print();
+	std::cout << "Max number of passengers: " << maxNumberOfPassengers << "\n";
+	std::cout << "Current number of passengers: " << currNumberOfPassengers << "\n";
+}
+
+void Bus::update(float _consumption) {
+	if (route.empty() && (currentPoint == 8 || currentPoint == 3)) {
+		route = navigator->findroad(currentPoint, 0);
+	}
+	else if (currentPoint == 1) {
+		route = navigator->findroad(currentPoint, 7);
+	}
+
+	update_currPoint();
+	update_gasLevel(_consumption);
 }

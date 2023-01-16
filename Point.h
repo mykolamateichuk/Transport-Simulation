@@ -1,8 +1,8 @@
 #ifndef POINT_H 
 #define POINT_H
 
+#include <iostream>
 #include <vector>
-#include "Road.h"
 
 enum PointType {
 	NoType,
@@ -18,25 +18,30 @@ private:
 	PointType type;
 	unsigned int id;
 	unsigned int numberOfSlots;
-	std::vector<Road> connectedRoads;
+	unsigned int currTakenSlots;
 
 public:
 	Point();
-	Point(PointType, unsigned int, unsigned int, const std::vector<Road>&);
+	Point(PointType, unsigned int, unsigned int, unsigned int);
 	Point(const Point&);
 
 	PointType getType() const;
 	unsigned int getId() const;
 	unsigned int getNumberOfSlots() const;
-	std::vector<Road> getConnectedRoads() const;
+	unsigned int getCurrTakenSlots() const;
 
-	Point& setType(PointType _type);
-	Point& setId(unsigned int _id);
-	Point& setNumberOfSlots(unsigned int _numberOfSlots);
-	Point& setConnectedRoads(const std::vector<Road>&);
+	Point& setType(PointType);
+	Point& setId(unsigned int);
+	Point& setNumberOfSlots(unsigned int);
+	Point& setCurrTakenSlots(unsigned int);
 
-	~Point();
+	void print() const;
+
+	Point& operator ++ ();
+	Point& operator -- ();
 };
+
+
 
 class EntertainmentPoint : public Point {
 private:
@@ -44,7 +49,7 @@ private:
 
 public:
 	EntertainmentPoint();
-	EntertainmentPoint(unsigned int, PointType, unsigned int, unsigned int, const std::vector<Road>&);
+	EntertainmentPoint(unsigned int, PointType, unsigned int, unsigned int, unsigned int);
 	EntertainmentPoint(const EntertainmentPoint&);
 
 	EntertainmentPoint(const Point&);
@@ -60,7 +65,7 @@ private:
 
 public:
 	GasStationPoint();
-	GasStationPoint(float, PointType, unsigned int, unsigned int, const std::vector<Road>&);
+	GasStationPoint(float, PointType, unsigned int, unsigned int, unsigned int);
 	GasStationPoint(const GasStationPoint&);
 
 	GasStationPoint(const Point&);
@@ -76,7 +81,7 @@ private:
 
 public:
 	BusStopPoint();
-	BusStopPoint(unsigned int, PointType, unsigned int, unsigned int, const std::vector<Road>&);
+	BusStopPoint(unsigned int, PointType, unsigned int, unsigned int, unsigned int);
 	BusStopPoint(const BusStopPoint&);
 
 	BusStopPoint(const Point&);
@@ -86,29 +91,13 @@ public:
 	BusStopPoint& setNumberOfPassengers(unsigned int);
 };
 
-class ParkingPoint : public Point {
-private:
-	float chanceOfStaying;
-
-public:
-	ParkingPoint();
-	ParkingPoint(float, PointType, unsigned int, unsigned int, const std::vector<Road>&);
-	ParkingPoint(const ParkingPoint&);
-
-	ParkingPoint(const Point&);
-
-	float getChanceOfStaying() const;
-
-	ParkingPoint& setChanceOfStaying(float);
-};
-
 class WarehousePoint : public Point {
 private:
 	float massOfCargo;
 
 public:
 	WarehousePoint();
-	WarehousePoint(float, PointType, unsigned int, unsigned int, const std::vector<Road>&);
+	WarehousePoint(float, PointType, unsigned int, unsigned int, unsigned int);
 	WarehousePoint(const WarehousePoint&);
 
 	WarehousePoint(const Point&);
@@ -116,6 +105,20 @@ public:
 	float getMassOfCargo() const;
 
 	WarehousePoint& setMassOfCargo(float);
+};
+
+struct ReturnPoint {
+	PointType type;
+	Point* point;
+	EntertainmentPoint* entertainment;
+	GasStationPoint* gasStation;
+	BusStopPoint* busStop;
+	WarehousePoint* warehouse;
+
+	unsigned int durationOfStop;
+	float refuellingCoef;
+	unsigned int numberOfPassengers;
+	float massOfCargo;
 };
 
 #endif

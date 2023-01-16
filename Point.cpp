@@ -1,23 +1,21 @@
 #include "Point.h"
 
 Point::Point() 
-	: type(NoType), id(0), numberOfSlots(0) 
-{
-	connectedRoads.resize(0);
-}
+	: type(NoType), id(0), numberOfSlots(0), currTakenSlots(0)
+{}
 
-Point::Point(PointType _type, unsigned int _id, unsigned int _numberOfSlots, const std::vector<Road>& _connectedRoads)
+Point::Point(PointType _type, unsigned int _id, unsigned int _numberOfSlots, unsigned int _currSlots)
 	: type(_type), 
 	  id(_id),
 	  numberOfSlots(_numberOfSlots),
-	  connectedRoads(_connectedRoads)
+	  currTakenSlots(_currSlots)
 {}
 
 Point::Point(const Point& _point) 
 	: type(_point.type),
 	  id(_point.id),
 	  numberOfSlots(_point.numberOfSlots),
-	  connectedRoads(_point.connectedRoads)
+	  currTakenSlots(_point.currTakenSlots)
 {}
 
 PointType Point::getType() const {
@@ -32,8 +30,8 @@ unsigned int Point::getNumberOfSlots() const {
 	return numberOfSlots;
 }
 
-std::vector<Road> Point::getConnectedRoads() const {
-	return connectedRoads;
+unsigned int Point::getCurrTakenSlots() const {
+	return currTakenSlots;
 }
 
 Point& Point::setType(PointType _type) {
@@ -51,11 +49,47 @@ Point& Point::setNumberOfSlots(unsigned int _numberOfSlots) {
 	return *this;
 }
 
-Point& Point::setConnectedRoads(const std::vector<Road>& _connectedRoads) {
-	connectedRoads = _connectedRoads;
+Point& Point::setCurrTakenSlots(unsigned int _currSlots) {
+	currTakenSlots = _currSlots;
 	return *this;
 }
 
-Point::~Point() {
-	connectedRoads.clear();
+void Point::print() const {
+	switch (type) {
+		case NoType:
+			std::cout << "NoType";
+			break;
+		case Entertainment:
+			std::cout << "Entertainment";
+			break;
+		case GasStation:
+			std::cout << "GasStation";
+			break;
+		case BusStop:
+			std::cout << "BusStop";
+			break;
+		case Parking:
+			std::cout << "Parking";
+			break;
+		case Warehouse:
+			std::cout << "Warehouse";
+			break;
+	}
+
+	std::cout << "\n";
+	std::cout << "Id: " << id << "\n";
 }
+
+Point& Point::operator ++ () {
+	currTakenSlots++;
+	return *this;
+}
+
+Point& Point::operator -- () {
+	currTakenSlots--;
+	return *this;
+}
+
+//Point::~Point() {
+//	connectedRoads.clear();
+//}

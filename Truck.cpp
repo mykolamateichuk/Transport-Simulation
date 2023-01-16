@@ -10,14 +10,17 @@ Truck::Truck
 (
 	float _maxMassOfCargo, 
 	float _currMassOfCargo, 
-	std::string _number,
+	unsigned int _number,
 	unsigned int _speed, 
 	bool _canMove, 
 	unsigned int _gasCapacity, 
 	float _gasLevel, 
-	std::queue<Point*> _route
+	std::vector<int> _route,
+	Navigator* _nav,
+	int _currPoint,
+	unsigned int _stopCount
 )
-	: Vehicle(_number, _speed, _canMove, _gasCapacity, _gasLevel, _route),
+	: Vehicle(_number, _speed, _canMove, _gasCapacity, _gasLevel, _route, _nav, _currPoint, _stopCount),
 	  maxMassOfCargo(_maxMassOfCargo),
 	  currMassOfCargo(_currMassOfCargo)
 {}
@@ -44,4 +47,10 @@ Truck& Truck::setMaxMassOfCargo(float _maxMassOfCargo) {
 Truck& Truck::setCurrMassOfCargo(float _currMassOfCargo) {
 	currMassOfCargo = _currMassOfCargo;
 	return *this;
+}
+
+void Truck::print() const {
+	Vehicle::print();
+	std::cout << "Max mass: " << maxMassOfCargo << "\n";
+	std::cout << "Current mass: " << currMassOfCargo << "\n";
 }

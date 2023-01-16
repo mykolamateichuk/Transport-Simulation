@@ -6,8 +6,8 @@ EntertainmentPoint::EntertainmentPoint()
 {}
 
 EntertainmentPoint::EntertainmentPoint
-(unsigned int _durationOfStop, PointType _type, unsigned int _id, unsigned int _numberOfSlots, const std::vector<Road>& _connectedRoads)
-	: Point(_type, _id, _numberOfSlots, _connectedRoads),
+(unsigned int _durationOfStop, PointType _type, unsigned int _id, unsigned int _numberOfSlots, unsigned int _currSlots)
+	: Point(_type, _id, _numberOfSlots, _currSlots),
 	  durationOfStop(_durationOfStop)
 {}
 

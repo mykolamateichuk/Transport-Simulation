@@ -1,177 +1,189 @@
 #include "TransportManager.h"
 
-#include <string>
-#include <array>
-
-std::string generateRandomCarNumber() {
-	std::string number;
-
-	number += char(rand() % 90 - 65) + char(rand() % 90 - 65);
-	number += std::to_string(rand() % 10000);
-	number += char(rand() % 90 - 65) + char(rand() % 90 - 65);
-
-	return number;
+Vehicles::Vehicles() {
+	vehicles.resize(0);
+	trucks.resize(0);
+	busses.resize(0);
+	bicycles.resize(0);
 }
 
-std::string generateRandomBicycleNumber() {
-	std::string number;
+Points::Points() {
+	entertainments.resize(0);
+	gasStations.resize(0);
+	busStops.resize(0);
+	warehouses.resize(0);
+}
 
-	number += char(rand() % 90 - 65);
-	number += char(rand() % 90 - 65);
-	number += char(rand() % 90 - 65);
-	number += std::to_string(rand() % 100);
-	
-	return number;
+void TransportManager::printAllPoints() const {
+
+	std::cout << "Entertainment:\n";
+	for (const auto& point : allPoints.entertainments) {
+		point->print();
+		std::cout << "\n";
+	}
+
+	std::cout << "GasStation:\n";
+	for (const auto& point : allPoints.gasStations) {
+		point->print();
+		std::cout << "\n";
+	}
+
+	std::cout << "BusStop:\n";
+	for (const auto& point : allPoints.busStops) {
+		point->print();
+		std::cout << "\n";
+	}
+
+	std::cout << "Warehouse:\n";
+	for (const auto& point : allPoints.warehouses) {
+		point->print();
+		std::cout << "\n";
+	}
+}
+
+void TransportManager::printAllVehicles() const {
+	std::cout << "Vehicles:\n";
+	for (const auto& vehicle : allVehicles.vehicles) {
+		vehicle->print();
+		std::cout << "\n";
+	}
+
+	std::cout << "Trucks:\n";
+	for (const auto& vehicle : allVehicles.trucks) {
+		vehicle->print();
+		std::cout << "\n";
+	}
+
+	std::cout << "Busses:\n";
+	for (const auto& vehicle : allVehicles.busses) {
+		vehicle->print();
+		std::cout << "\n";
+	}
+
+	std::cout << "Bicycles:\n";
+	for (const auto& vehicle : allVehicles.bicycles) {
+		vehicle->print();
+		std::cout << "\n";
+	}
+}
+
+unsigned int generateRandomCarNumber() {
+	return rand() % 10000;
+}
+
+unsigned int generateRandomBicycleNumber() {
+	return rand() % 100;
 }
 
 void TransportManager::setUpRandomVehicleStats() {
-	const unsigned int numTrucks = (int)(numberOfVehicles * 0.1);
-	const unsigned int numBusses = (int)(numberOfVehicles * 0.2);
-	const unsigned int numBicycles = (int)(numberOfVehicles * 0.1);
+	const unsigned int numTrucks	= (int)(numberOfVehicles * 0.2);
+	const unsigned int numBusses	= (int)(numberOfVehicles * 0.3);
+	const unsigned int numBicycles	= (int)(numberOfVehicles * 0.2);
 
 	const unsigned int numVehicles = numberOfVehicles - (numTrucks + numBusses + numBicycles);
 
-	allVehicles.vehicles.resize(numVehicles);
-	allVehicles.trucks.resize(numTrucks);
-	allVehicles.busses.resize(numBusses);
-	allVehicles.bicycles.resize(numBicycles);
-
-	std::vector<unsigned int> randomIndexVehicles((int)(numVehicles * 0.7), rand() % numVehicles);
-	std::vector<unsigned int> randomIndexTrucks((int)(numTrucks * 0.7), rand() % numTrucks);
-	std::vector<unsigned int> randomIndexBusses((int)(numTrucks * 0.7), rand() % numBusses);
-	std::vector<unsigned int> randomIndexBicycles((int)(numTrucks * 0.7), rand() % numBicycles);
-
-	unsigned int index = 0;
-	for (auto& vehicle : allVehicles.vehicles) {
+	for (int i = 0; i < numVehicles; ++i) {
+		Vehicle* vehicle = new Vehicle();
 		vehicle->setNumber(generateRandomCarNumber());
 
-		for (const auto& randomVehicle : randomIndexVehicles) {
-			if (index == randomVehicle) {
-				vehicle->setSpeed(rand() % 31 + 50);
-				vehicle->setGasLevel((float)(rand() % 81 + 20) / 100);
-				vehicle->setGasCapacity(rand() % 11 + 10);
-			}
+		vehicle->setSpeed(rand() % 31 + 50);
+		vehicle->setGasLevel((float)(rand() % 81 + 20) / 100);
+		vehicle->setGasCapacity(rand() % 11 + 10);
+		unsigned int random = rand() % 9 + 1;
+		if (getPointById(random).point->getCurrTakenSlots() < getPointById(random).point->getNumberOfSlots()) {
+			vehicle->setCurrentPoint(random);
+			++(*getPointById(random).point);
 		}
-		index++;
+		
+
+		allVehicles.vehicles.push_back(vehicle);
 	}
 
-	index = 0;
-	for (auto& truck : allVehicles.trucks) {
+	for (int i = 0; i < numTrucks; ++i) {
+		Truck* truck = new Truck();
+
 		truck->setNumber(generateRandomCarNumber());
-
-		for (const auto& randomTruck : randomIndexTrucks) {
-			if (index == randomTruck) {
-				truck->setSpeed(rand() % 31 + 30);
-				truck->setGasLevel((float)(rand() % 81 + 20) / 100);
-				truck->setGasCapacity(rand() % 11 + 10);
-
-				truck->setMaxMassOfCargo((float)(rand() % 16 + 5));
-				float currMassCoef = (rand() % 101) / 100;
-				truck->setCurrMassOfCargo(truck->getMaxMassOfCargo() * currMassCoef);
-			}
+		truck->setSpeed(rand() % 31 + 30);
+		truck->setGasLevel((float)(rand() % 81 + 20) / 100);
+		truck->setGasCapacity(rand() % 11 + 10);
+		unsigned int random = rand() % 9 + 1;
+		if (getPointById(random).point->getCurrTakenSlots() < getPointById(random).point->getNumberOfSlots()) {
+			truck->setCurrentPoint(random);
+			++(*getPointById(random).point);
 		}
-		index++;
+
+		truck->setMaxMassOfCargo((float)(rand() % 16 + 5));
+		float currMassCoef = (float) (rand() % 101) / 100;
+		truck->setCurrMassOfCargo(truck->getMaxMassOfCargo() * currMassCoef);
+
+		allVehicles.trucks.push_back(truck);
 	}
 
-	index = 0;
-	for (auto& bus : allVehicles.busses) {
+	for (int i = 0; i < numBusses; ++i) {
+		Bus* bus = new Bus();
+
 		bus->setNumber(generateRandomCarNumber());
 
-		for (const auto& randomBus : randomIndexBusses) {
-			if (index == randomBus) {
-				bus->setSpeed(rand() % 31 + 30);
-				bus->setGasLevel((float)(rand() % 81 + 20) / 100);
-				bus->setGasCapacity(rand() % 11 + 10);
+		bus->setSpeed(rand() % 31 + 30);
+		bus->setGasLevel((float)(rand() % 81 + 20) / 100);
+		bus->setGasCapacity(rand() % 11 + 10);
+		bus->setCurrentPoint(1);
+		std::vector<int> q = { 2, 4, 5, 7, 8 };
+		bus->setRoute(q);
 
-				bus->setMaxNumberOfPassengers(rand() % 20 + 20);
-				float currPassNumberCoef = (rand() % 101) / 100;
-				bus->setCurrNumberOfPassengers(bus->getMaxNumberOfPassengers() * currPassNumberCoef);
-			}
-		}
-		index++;
+		bus->setMaxNumberOfPassengers(rand() % 20 + 20);
+		float currPassNumberCoef = (float) (rand() % 101) / 100;
+		bus->setCurrNumberOfPassengers(bus->getMaxNumberOfPassengers() * currPassNumberCoef);
+
+		allVehicles.busses.push_back(bus);
 	}
 
-	index = 0;
-	for (auto& bicycle : allVehicles.bicycles) {
+	for (int i = 0; i < numBicycles; ++i) {
+		Bicycle* bicycle = new Bicycle();
+
 		bicycle->setNumber(generateRandomBicycleNumber());
-
-		for (const auto& randomBicycle : randomIndexBicycles) {
-			if (index == randomBicycle) {
-				bicycle->setSpeed(rand() % 11 + 10);
-
-				bicycle->setChanceOfGoingOffRoad((float)((rand() % 81) / 100));
-			}
+		unsigned int random = rand() % 9 + 1;
+		if (getPointById(random).point->getCurrTakenSlots() < getPointById(random).point->getNumberOfSlots()) {
+			bicycle->setCurrentPoint(random);
+			++(*getPointById(random).point);
 		}
-		index++;
+
+		bicycle->setSpeed(rand() % 11 + 10);
+		bicycle->setChanceOfGoingOffRoad((float)(rand() % 81) / 100);
+		allVehicles.bicycles.push_back(bicycle);
 	}
 }
 
 void TransportManager::setUpPoints() {
+	BusStopPoint* point1 = new BusStopPoint(rand() % 10, BusStop, 1, 2, 0);
+	EntertainmentPoint* point2 = new EntertainmentPoint(5, Entertainment, 2, 5, 0);
+	GasStationPoint* point3 = new GasStationPoint(0.5, GasStation, 3, 5, 0);
+	BusStopPoint* point4 = new BusStopPoint(rand() % 10, BusStop, 4, 5, 0);
+	EntertainmentPoint* point5 = new EntertainmentPoint(5, Entertainment, 5, 5, 0);
+	WarehousePoint* point6 = new WarehousePoint(8.2, Warehouse, 6, 5, 0);
+	WarehousePoint* point7 = new WarehousePoint(4.5, Warehouse, 7, 5, 0);
+	BusStopPoint* point8 = new BusStopPoint(rand() % 10, BusStop, 8, 5, 0);
+	EntertainmentPoint* point9 = new EntertainmentPoint(5, Entertainment, 9, 5, 0);
+	EntertainmentPoint* point10 = new EntertainmentPoint(5, Entertainment, 10, 5, 0);
 
-	for (const auto& row : map.getMap()) {
-		for (const auto& element : row) {
-			std::vector<Road> connectedRoads(0);
-			Point* point = new Point(NoType, element.getPointId(), rand() % 11, connectedRoads);
+	allPoints.entertainments.push_back(point2);
+	allPoints.entertainments.push_back(point5);
+	allPoints.entertainments.push_back(point9);
+	allPoints.entertainments.push_back(point10);
 
-			EntertainmentPoint entertainment = EntertainmentPoint(*point);
-			GasStationPoint gasStation		 = GasStationPoint(*point);
-			BusStopPoint busStop			 = BusStopPoint(*point);
-			ParkingPoint parking			 = ParkingPoint(*point);
-			WarehousePoint warehouse		 = WarehousePoint(*point);
+	allPoints.busStops.push_back(point1);
+	allPoints.busStops.push_back(point4);
+	allPoints.busStops.push_back(point8);
 
-			switch (element.getPoint()) {
-				case NoType:
-					break;
-				case Entertainment:
-					entertainment.setType(Entertainment);
+	allPoints.gasStations.push_back(point3);
 
-					allPoints.entertainments.push_back(&entertainment);
-					break;
-				case GasStation:
-					gasStation.setType(GasStation);
-
-					allPoints.gasStations.push_back(&gasStation);
-					break;
-				case BusStop:
-					busStop.setType(BusStop);
-
-					allPoints.busStops.push_back(&busStop);
-					break;
-				case Parking:
-					parking.setType(Parking);
-
-					allPoints.parkings.push_back(&parking);
-					break;
-				case Warehouse:
-					warehouse.setType(Warehouse);
-
-					allPoints.warehouses.push_back(&warehouse);
-					break;
-			}
-		}
-	}
-}
-
-void TransportManager::setUpRoads() {
-
-	/*for (const auto& row : map.getMap()) {
-		for (const auto& element : row) {
-			unsigned int index = 0;
-			if (element.getPoint() != NoType) {
-				Road* road = &Road(rand() % 401 + 100, rand() % 51 + 50, rand() % 25);
-				roads.push_back(road);
-
-				roadStartEndPoints.insert(road, std::make_pair<element.getPointId(), element.getConnectedPointIds().at(index)>);
-			}
-		}
-	}*/
-
+	allPoints.warehouses.push_back(point6);
+	allPoints.warehouses.push_back(point7);
 }
 
 void TransportManager::setUpSimulation() {
-	setUpRandomVehicleStats();
 	setUpPoints();
-	setUpRoads();
+	setUpRandomVehicleStats();
 };
 
 void TransportManager::inputData() {
@@ -187,8 +199,8 @@ void TransportManager::inputData() {
 		std::cout << "Size of your map (matrix) > ";
 		std::cin >> size;
 
-		Cell temp;
-		std::vector<std::vector<Cell>> temp_map(size, std::vector<Cell>(size, Cell()));
+		unsigned int temp;
+		std::vector<std::vector<unsigned int>> temp_map(size, std::vector<unsigned int>(size, 0));
 		for (int i = 0; i < size; ++i) {
 			for (int j = 0; j < size; ++j) {
 				std::cout << "[" << i << "][" << j << "]\n";
@@ -208,32 +220,18 @@ void TransportManager::inputData() {
 	}
 }	
 
-void TransportManager::printStats() const {
-	for (const auto& vehicle : allVehicles.vehicles) {
-		//std::cout << "********************************" << std::endl;
-		std::cout << "Vehicle:    " << vehicle->getNumber() << std::endl;
-		//std::cout << "Next point: " << vehicle->getAppointment() << std::endl;
-		std::cout << "Gas level:  " << vehicle->getGasLevel() << std::endl;
-	}
-};
-
-
 // Getters
 unsigned int TransportManager::getNumberOfVehicles() const {
 	return numberOfVehicles;
 };
 
-std::vector<std::vector<Cell>> TransportManager::getMap() const {
+std::vector<std::vector<unsigned int>> TransportManager::getMap() const {
 	return map.getMap();
 };
 
 Vehicles TransportManager::getVehicles() const {
 	return allVehicles;
 };
-
-std::vector<Road*> TransportManager::getRoads() const {
-	return roads;
-}
 
 Points TransportManager::getPoints() const {
 	return allPoints;
@@ -269,10 +267,6 @@ void TransportManager::addBicycle(Bicycle* _bicycle) {
 	numberOfVehicles++;
 }
 
-void TransportManager::addRoad(Road* _road) {
-	roads.push_back(_road);
-}
-
 void TransportManager::addEntertainment(EntertainmentPoint* _point) {
 	allPoints.entertainments.push_back(_point);
 }
@@ -285,10 +279,57 @@ void TransportManager::addBusStop(BusStopPoint* _point) {
 	allPoints.busStops.push_back(_point);
 }
 
-void TransportManager::addParking(ParkingPoint* _point) {
-	allPoints.parkings.push_back(_point);
-}
-
 void TransportManager::addWarehouse(WarehousePoint* _point) {
 	allPoints.warehouses.push_back(_point);
+}
+
+TransportManager::TransportManager() 
+	: numberOfVehicles(0),
+	  map(Map()),
+	  allVehicles(),
+	  allPoints()
+{}
+
+ReturnPoint TransportManager::getPointById(unsigned int _id) {
+	ReturnPoint ret;
+
+	for (auto& pointEnt : allPoints.entertainments) {
+		if (pointEnt->getId() == _id) {
+			ret.point = pointEnt;
+			ret.entertainment = pointEnt;
+			ret.type = pointEnt->getType();
+			ret.durationOfStop = pointEnt->getDurationOfStop();
+			return ret;
+		}
+	}
+
+	for (auto& pointGas : allPoints.gasStations) {
+		if (pointGas->getId() == _id) {
+			ret.point = pointGas;
+			ret.gasStation = pointGas;
+			ret.type = pointGas->getType();
+			ret.refuellingCoef = pointGas->getRefuellingSpeedCoef();
+			return ret;
+		}
+	}
+
+	for (auto& pointBus : allPoints.busStops) {
+		if (pointBus->getId() == _id) {
+			ret.point = pointBus;
+			ret.busStop = pointBus;
+			ret.type = pointBus->getType();
+			ret.numberOfPassengers = pointBus->getNumberOfPassengers();
+			return ret;
+		}
+	}
+
+	for (auto& pointWarehouse : allPoints.warehouses) {
+		if (pointWarehouse->getId() == _id) {
+			ret.point = pointWarehouse;
+			ret.warehouse = pointWarehouse;
+			ret.type = pointWarehouse->getType();
+			ret.massOfCargo = pointWarehouse->getMassOfCargo();
+			return ret;
+		}
+	}
 }

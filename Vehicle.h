@@ -4,57 +4,68 @@
 #include <queue>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
-#include "navigator.h"
+#include "Navigator.h"
 #include "Point.h"
 
 class Vehicle {
-private:
-    std::string number;
+protected:
+    unsigned int number;
     unsigned int speed;
     bool canMove;
 
     unsigned int gasCapacity;
     float gasLevel;
 
-    std::queue<Point*> route;
-    std::queue<Point*> appointments;
+    std::vector<int> route;
+    Navigator* navigator;
 
-    //Navigator *navigator;
-    /*
-    void update_position();
-    void update_gasLevel();
-    */
-    void expandRoute(std::vector<Point*>);
+    int currentPoint;
+    unsigned int stopCount;
+    
+    void update_currPoint();
+    void update_gasLevel(float);
+    
+    void expandRoute(std::vector<int>);
 public:
     Vehicle();
-    Vehicle(std::string, unsigned int, bool, unsigned int, float, std::queue<Point*>);
+    Vehicle(unsigned int, unsigned int, bool, unsigned int, float, std::vector<int>, Navigator*, int, unsigned int);
     Vehicle(const Vehicle&);
 
-    //void setAppointment(Point*);
-    //void addAppointment(Point*);
+    //void refuel();
 
-    void refuel();
-
-    //void update();
+    void update(float);
 
     // get
-    //int getPosition();
-    //int getAppointment();
-    std::queue<Point*> getRoute();
+    std::vector<int> getRoute();
 
     int getSpeed();
-    std::string getNumber();
+    unsigned int getNumber();
 
-    int getGasLevel();
+    float getGasLevel();
     int getGasCapacity();
 
+    int getCurrentPoint() const;
+    Navigator* getNavigator() const;
+    bool getCanMove() const;
+    unsigned int getStopCount() const;
+
     // set
-    void setGasLevel(int);
+    void setGasLevel(float);
     void setGasCapacity(int);
 
+    void setRoute(std::vector<int>);
+
     void setSpeed(int);
-    void setNumber(std::string);
+    void setNumber(unsigned int);
+
+    void setCurrentPoint(int);
+    void setNavigator(Navigator*);
+    void setCanMove(bool);
+    void setStopCount(unsigned int);
+
+    virtual void print() const;
 };
 
 class Bus : public Vehicle {
@@ -64,7 +75,7 @@ private:
 
 public:
     Bus();
-    Bus(unsigned int, unsigned int, std::string, unsigned int, bool, unsigned int, float, std::queue<Point*>);
+    Bus(unsigned int, unsigned int, unsigned int, unsigned int, bool, unsigned int, float, std::vector<int>, Navigator*, int, unsigned int);
     Bus(const Bus&);
 
     unsigned int getMaxNumberOfPassengers() const;
@@ -72,6 +83,10 @@ public:
 
     Bus& setMaxNumberOfPassengers(unsigned int);
     Bus& setCurrNumberOfPassengers(unsigned int);
+
+    void print() const override;
+
+    void update(float);
 };
 
 class Truck : public Vehicle {
@@ -81,7 +96,7 @@ private:
 
 public:
     Truck();
-    Truck(float, float, std::string, unsigned int, bool, unsigned int, float, std::queue<Point*>);
+    Truck(float, float, unsigned int, unsigned int, bool, unsigned int, float, std::vector<int>, Navigator*, int, unsigned int);
     Truck(const Truck&);
 
     float getMaxMassOfCargo() const;
@@ -89,20 +104,27 @@ public:
 
     Truck& setMaxMassOfCargo(float);
     Truck& setCurrMassOfCargo(float);
+
+    void print() const override;
 };
 
 class Bicycle : public Vehicle {
 private:
     float chanceOfGoingOffRoad;
 
+    void update_currPoint();
 public:
     Bicycle();
-    Bicycle(float, std::string, unsigned int, bool, unsigned int, float, std::queue<Point*>);
+    Bicycle(float, unsigned int, unsigned int, bool, unsigned int, float, std::vector<int>, Navigator*, int, unsigned int);
     Bicycle(const Bicycle&);
 
     float getChanceOfGoingOffRoad() const;
 
     Bicycle& setChanceOfGoingOffRoad(float);
+
+    void print() const override;
+
+    void update();
 };
 
 #endif
