@@ -128,7 +128,7 @@ void TransportManager::setUpRandomVehicleStats() {
 		bus->setGasLevel((float)(rand() % 81 + 20) / 100);
 		bus->setGasCapacity(rand() % 11 + 10);
 		bus->setCurrentPoint(1);
-		std::vector<int> q = { 2, 4, 5, 7, 8 };
+		std::vector<unsigned int> q = { 2, 4, 5, 7, 8 };
 		bus->setRoute(q);
 
 		bus->setMaxNumberOfPassengers(rand() % 20 + 20);

@@ -18,7 +18,7 @@ protected:
     unsigned int gasCapacity;
     float gasLevel;
 
-    std::vector<int> route;
+    std::vector<unsigned int> route;
     Navigator* navigator;
 
     int currentPoint;
@@ -30,7 +30,7 @@ protected:
     void expandRoute(std::vector<int>);
 public:
     Vehicle();
-    Vehicle(unsigned int, unsigned int, bool, unsigned int, float, std::vector<int>, Navigator*, int, unsigned int);
+    Vehicle(unsigned int, unsigned int, bool, unsigned int, float, std::vector<unsigned int>, Navigator*, int, unsigned int);
     Vehicle(const Vehicle&);
 
     //void refuel();
@@ -38,7 +38,7 @@ public:
     void update(float);
 
     // get
-    std::vector<int> getRoute();
+    std::vector<unsigned int> getRoute();
 
     int getSpeed();
     unsigned int getNumber();
@@ -55,7 +55,7 @@ public:
     void setGasLevel(float);
     void setGasCapacity(int);
 
-    void setRoute(std::vector<int>);
+    void setRoute(std::vector<unsigned int>);
 
     void setSpeed(int);
     void setNumber(unsigned int);
@@ -75,7 +75,7 @@ private:
 
 public:
     Bus();
-    Bus(unsigned int, unsigned int, unsigned int, unsigned int, bool, unsigned int, float, std::vector<int>, Navigator*, int, unsigned int);
+    Bus(unsigned int, unsigned int, unsigned int, unsigned int, bool, unsigned int, float, std::vector<unsigned int>, Navigator*, int, unsigned int);
     Bus(const Bus&);
 
     unsigned int getMaxNumberOfPassengers() const;
@@ -96,7 +96,7 @@ private:
 
 public:
     Truck();
-    Truck(float, float, unsigned int, unsigned int, bool, unsigned int, float, std::vector<int>, Navigator*, int, unsigned int);
+    Truck(float, float, unsigned int, unsigned int, bool, unsigned int, float, std::vector<unsigned int>, Navigator*, int, unsigned int);
     Truck(const Truck&);
 
     float getMaxMassOfCargo() const;
@@ -115,7 +115,7 @@ private:
     void update_currPoint();
 public:
     Bicycle();
-    Bicycle(float, unsigned int, unsigned int, bool, unsigned int, float, std::vector<int>, Navigator*, int, unsigned int);
+    Bicycle(float, unsigned int, unsigned int, bool, unsigned int, float, std::vector<unsigned int>, Navigator*, int, unsigned int);
     Bicycle(const Bicycle&);
 
     float getChanceOfGoingOffRoad() const;

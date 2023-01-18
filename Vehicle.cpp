@@ -19,7 +19,7 @@ void Vehicle::update_gasLevel(float _consumption) {
     }
     else {
         route.clear();
-        route = navigator->findroad(currentPoint, 2);
+        route = navigator->findRoute(currentPoint, 2);
         gasLevel = _consumption * route.size();
     }
 }
@@ -32,11 +32,11 @@ void Vehicle::expandRoute(std::vector<int> poins) {
 // public
 
 Vehicle::Vehicle()
-    : number(0), speed(50), canMove(true), gasCapacity(15), gasLevel(1.0f), currentPoint(1), navigator(&Navigator()), stopCount(0)
+    : number(0), speed(50), canMove(true), gasCapacity(15), gasLevel(1.0f), currentPoint(1), navigator(new Navigator()), stopCount(0)
 {}
 
 Vehicle::Vehicle
-(unsigned int _number, unsigned int _speed, bool _canMove, unsigned int _gasCapacity, float _gasLevel, std::vector<int> _route, Navigator* _nav, int _currPoint, unsigned int _stopCount)
+(unsigned int _number, unsigned int _speed, bool _canMove, unsigned int _gasCapacity, float _gasLevel, std::vector<unsigned int> _route, Navigator* _nav, int _currPoint, unsigned int _stopCount)
     : number(_number),
       speed(_speed),
       canMove(_canMove),
@@ -72,7 +72,7 @@ void Vehicle::update(float _consumption) {
     if (!canMove) return;
 
     if (route.empty()) {
-        route = navigator->findroad(currentPoint, rand() % 10);
+        route = navigator->findRoute(currentPoint, rand() % 10);
     }
 
     update_currPoint();
@@ -81,7 +81,7 @@ void Vehicle::update(float _consumption) {
 
 // get
 
-std::vector<int> Vehicle::getRoute() { return route; }
+std::vector<unsigned int> Vehicle::getRoute() { return route; }
 
 int Vehicle::getSpeed() { return speed; }
 unsigned int Vehicle::getNumber() { return number; }
@@ -119,7 +119,7 @@ void Vehicle::setCurrentPoint(int _currPoint) {
     currentPoint = _currPoint;
 }
 
-void Vehicle::setRoute(std::vector<int> _route) {
+void Vehicle::setRoute(std::vector<unsigned int> _route) {
     route = _route;
 }
 

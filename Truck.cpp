@@ -15,7 +15,7 @@ Truck::Truck
 	bool _canMove, 
 	unsigned int _gasCapacity, 
 	float _gasLevel, 
-	std::vector<int> _route,
+	std::vector<unsigned int> _route,
 	Navigator* _nav,
 	int _currPoint,
 	unsigned int _stopCount

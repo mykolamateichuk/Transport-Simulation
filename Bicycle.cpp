@@ -13,7 +13,7 @@ Bicycle::Bicycle
 	bool _canMove, 
 	unsigned int _gasCapacity, 
 	float _gasLevel, 
-	std::vector<int> _route,
+	std::vector<unsigned int> _route,
 	Navigator* _nav,
 	int _currPoint,
 	unsigned int _stopCount
@@ -46,7 +46,7 @@ void Bicycle::update_currPoint() {
 
 	if ((rand() % 101) / 100 < chanceOfGoingOffRoad) {
 		currentPoint = route.back();
-		route = navigator->findroad(currentPoint, rand() % 10);
+		route = navigator->findRoute(currentPoint, rand() % 10);
 		return;
 	}
 
@@ -60,7 +60,7 @@ void Bicycle::update() {
 	if (!canMove) return;
 
 	if (route.empty()) {
-		route = navigator->findroad(currentPoint, rand() % 10);
+		route = navigator->findRoute(currentPoint, rand() % 10);
 	}
 
 	update_currPoint();

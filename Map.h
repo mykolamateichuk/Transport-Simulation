@@ -2,8 +2,6 @@
 #define MAP_H
 
 #include <vector>
-#include "Point.h"
-#include <iostream>
 
 class Map {
 private:

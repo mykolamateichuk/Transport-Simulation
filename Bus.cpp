@@ -15,7 +15,7 @@ Bus::Bus
 	bool _canMove,
 	unsigned int _gasCapacity,
 	float _gasLevel,
-	std::vector<int> _route,
+	std::vector<unsigned int> _route,
 	Navigator* _nav,
 	int _currPoint,
 	unsigned int _stopCount
@@ -57,10 +57,10 @@ void Bus::print() const {
 
 void Bus::update(float _consumption) {
 	if (route.empty() && (currentPoint == 8 || currentPoint == 3)) {
-		route = navigator->findroad(currentPoint, 0);
+		route = navigator->findRoute(currentPoint, 0);
 	}
 	else if (currentPoint == 1) {
-		route = navigator->findroad(currentPoint, 7);
+		route = navigator->findRoute(currentPoint, 7);
 	}
 
 	update_currPoint();

@@ -1,9 +1,7 @@
-ManagerExp.txt
-.vscode/c_cpp_properties.json
-CppProperties.json
-transport.sln
-transport.vcxproj
-transport.vcxproj.filters
-transport.vcxproj.user
-x64/
 .vs/
+x64/
+Transport-Simulation.sln
+Transport-Simulation.vcxproj
+Transport-Simulation.vcxproj.filters
+Transport-Simulation.vcxproj.user
+CppProperties.json

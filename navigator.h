@@ -5,25 +5,28 @@
 #include <stack> 
 #include <vector>
 
-#include "Map.h"
-#include "Point.h"
+#include <algorithm>
 
-using namespace std;
+#include "Map.h"
 
 struct Edge {
-    int begin;
-    int end;
+    unsigned int begin;
+    unsigned int end;
 };
 
 class Navigator {
 private:
     Map map;
+    unsigned int numberOfNodes;
 public:
     Navigator();
     Navigator(const Map&);
     Navigator(const Navigator&);
 
-    std::vector<int> findroad(int, int);
+    Navigator& setMap(const Map&);
+    Navigator& setNumberOfNodes(unsigned int);
+
+    std::vector<unsigned int> findRoute(unsigned int, unsigned int);
 };
 
 #endif

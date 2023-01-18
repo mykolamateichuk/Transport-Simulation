@@ -31,22 +31,22 @@ int main() {
 
     for (auto& vehicle : manager.getVehicles().vehicles) {
         vehicle->setNavigator(&navigator);
-        vehicle->setRoute(vehicle->getNavigator()->findroad(vehicle->getCurrentPoint(), rand() % 10));
+        vehicle->setRoute(vehicle->getNavigator()->findRoute(vehicle->getCurrentPoint(), rand() % 10));
     }
 
     for (auto& vehicle : manager.getVehicles().trucks) {
         vehicle->setNavigator(&navigator);
-        vehicle->setRoute(vehicle->getNavigator()->findroad(vehicle->getCurrentPoint(), rand() % 10));
+        vehicle->setRoute(vehicle->getNavigator()->findRoute(vehicle->getCurrentPoint(), rand() % 10));
     }
 
     for (auto& vehicle : manager.getVehicles().busses) {
         vehicle->setNavigator(&navigator);
-        vehicle->setRoute(vehicle->getNavigator()->findroad(vehicle->getCurrentPoint(), 0));
+        vehicle->setRoute(vehicle->getNavigator()->findRoute(vehicle->getCurrentPoint(), 0));
     }
 
     for (auto& vehicle : manager.getVehicles().bicycles) {
         vehicle->setNavigator(&navigator);
-        vehicle->setRoute(vehicle->getNavigator()->findroad(vehicle->getCurrentPoint(), rand() % 10));
+        vehicle->setRoute(vehicle->getNavigator()->findRoute(vehicle->getCurrentPoint(), rand() % 10));
     }
     
     while (process) {
